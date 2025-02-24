@@ -18,6 +18,7 @@ v0.2.0 on the way!
 
 v0.1.4 will include some bug fixes and maybe some other stuff. It should come out this week.
 
-NOTE: I will **not** be updating any source code unless asked to do so on discord or by an Issue report.
+## Some other notes: 
+I will **not** be updating any source code unless asked to do so on discord or by an Issue report.
 
 Discord User: Law Abiding Troller. I am in the Subnautica Moding discord server as LawAbidingTrollerSucksAtMods. DM or Ping me there
