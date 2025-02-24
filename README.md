@@ -1,5 +1,5 @@
 # LiteralSeaglideUpgrades
-My Litteral Seaglide Upgrades Subnautica mod. Requires Nautilus. Currently not compatible with Ramune's SeaglideUpgrades mod...even though its unreleased. Find the upgrades in the Fabricator, where you craft the Seaglide. Press V when holding a Seaglide to access the Upgrades! 
+My Litteral Seaglide Upgrades Subnautica mod. Requires Nautilus. Find the upgrades in the Fabricator, where you craft the Seaglide. Press V when holding a Seaglide to access the Upgrades! 
 
 ## How to install:
 
@@ -17,6 +17,12 @@ When quickly switching between Seaglides in the hot bar, it will not update spee
 v0.2.0 on the way!
 
 v0.1.4 will include some bug fixes and maybe some other stuff. It should come out this week.
+
+### NOTE:
+I have recived information and a test build of Seaglide Upgrades (actually from the Subnautica Modding discord server, to find it you can just search for it on discord) from Ramune. This mod will **never** be directely compatible for Ramune's Seaglide Upgrades.
+#### What this means:
+
+v0.1.4 will take a shorter amount of time to complete. Same with v0.2.0. However, when it releases will depend on my own time management.
 
 ## Some other notes: 
 I will **not** be updating any source code unless asked to do so on discord or by an Issue report.
