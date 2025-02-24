@@ -18,13 +18,18 @@ v0.2.0 on the way!
 
 v0.1.4 will include some bug fixes and maybe some other stuff. It should come out this week.
 
-### NOTE:
-I have recived information and a test build of Seaglide Upgrades (actually from the Subnautica Modding discord server, to find it you can just search for it on discord) from Ramune. This mod will **never** be directely compatible for Ramune's Seaglide Upgrades.
-#### What this means:
-
-v0.1.4 will take a shorter amount of time to complete. Same with v0.2.0. However, when it releases will depend on my own time management.
-
 ## Some other notes: 
 I will **not** be updating any source code unless asked to do so on discord or by an Issue report.
 
 Discord User: Law Abiding Troller. I am in the Subnautica Moding discord server as LawAbidingTrollerSucksAtMods. DM or Ping me there
+# Changelog
+## v0.1.0 (basically what this mod added to the game)
+
+- Added Logging for debugging
+- Added Literal Seaglide Upgrades
+- Added storage for the Seaglide
+- Added the ablility to press V when holding a Seaglide to access the storages
+- Added Seaglide Speed Upgrade Mk 1
+- Added Seaglide Speed Upgrade Mk 2
+- Added Seaglide Speed Upgrade Mk 3
+### More to come!
