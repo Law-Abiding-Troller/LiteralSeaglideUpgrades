@@ -1,18 +1,18 @@
-## LiteralSeaglideUpgrades
+# LiteralSeaglideUpgrades
 My Litteral Seaglide Upgrades Subnautica mod. Requires Nautilus. Currently not compatible with Ramune's SeaglideUpgrades mod...even though its unreleased. Find the upgrades in the Fabricator, where you craft the Seaglide. Press V when holding a Seaglide to access the Upgrades! 
 
-# How to install:
+## How to install:
 
 1. Ensure you have BepInEx and Nautilus installed, if you do not, the mod will not work.
 2. If you have Subnautica Mod Manager: Create a folder in BepInEx's plugin folder in your game files to put the DLL in
 3. Download the DLL. Need it to actually have the mod work
 4. Put the DLL in the plugins folder. If you have Subnautica Mod Manager, put the DLL in the folder you created in step 2.
 
-# Known Bugs: 
+## Known Bugs: 
 
 When quickly switching between Seaglides in the hot bar, it will not update speed unless opening the new Seaglide's container. 
 
-# Update News:
+## Update News:
 
 v0.2.0 on the way!
 
