@@ -10,13 +10,11 @@ My Litteral Seaglide Upgrades Subnautica mod. Requires Nautilus. Find the upgrad
 
 ## Known Bugs: 
 
-When quickly switching between Seaglides in the hot bar, it will not update speed unless opening the new Seaglide's container. 
+None! I dare you to brake this version without de-compiling it! 
 
 ## Update News:
 
-v0.2.0 on the way!
-
-v0.1.4 will include some bug fixes and maybe some other stuff. It should come out this week.
+v0.2.0 on the way! It may have a promised release feature!
 
 ## Some other notes: 
 I will **not** be updating any source code unless asked to do so on discord or by an Issue report.
@@ -40,4 +38,9 @@ Discord User: Law Abiding Troller. I am in the Subnautica Moding discord server 
 ## v0.1.3
 - Actually fixed the bug with adding upgrades to the container
 - Atempted to make quickly switching between Seaglides less clunky
+## v0.1.4
+- Actually made quickly switching between Seaglides less clunky
+- Changed how it checks for upgrades
+- Rearanged some code
+- Added some code
 ### More to come!
