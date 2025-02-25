@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
@@ -14,21 +14,22 @@ using Newtonsoft.Json;
 using System.Linq;
 using BepInEx.Configuration;
 using Mono.Cecil.Cil;
+using Nautilus.Handlers;
+using rail;
 
 namespace LawAbidingTroller.SeaglideModConcept//Will credit any coders contributing to the mod
 {
-    [BepInPlugin("com.lawabidingtroller.literalseaglideupgrades", "Literal Seaglide Upgrades", "0.1.0")]
+    [BepInPlugin("com.lawabidingtroller.literalseaglideupgrades", "Literal Seaglide Upgrades", "0.1.4")]
     [BepInDependency("com.snmodding.nautilus")]
     public class Plugin : BaseUnityPlugin
     {
         public new static ManualLogSource Logger { get; private set; }
         //default allowed tech
-        public TechType[] allowedtech = { TechType.SeaTreaderPoop, SeaglideSpeedModulePrefab.Info.TechType, SeaglideSpeedModuleMk2.Info.TechType, SeaglideSpeedModuleMk3.Info.TechType };
+
         public static bool mk1SpeedUpgradeInSeaglide = false;
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         public bool hasalreadyran = false;
-        public bool allowedtechalreadyset = false;
-        public bool debugmode = true;
+        public bool debugmode = false;
         //only seaglide for now. plan to add compatability to Ramune's SeaglideUpgrades mod.
         public IEnumerator SetSeaglideUpgrades(TechType techtype)
         {
@@ -49,8 +50,7 @@ namespace LawAbidingTroller.SeaglideModConcept//Will credit any coders contribut
         {
             // set project-scoped logger instance
             Logger = base.Logger;
-
-            // Create the Seaglide Upgrade Storage
+            // Create the Seaglide Upgrade Storage for the Seaglides
             StartCoroutine(SetSeaglideUpgrades(TechType.Seaglide));
             // register harmony patches, if there are any
             Harmony.CreateAndPatchAll(Assembly, "Literal Seaglide Upgrades");
@@ -62,8 +62,10 @@ namespace LawAbidingTroller.SeaglideModConcept//Will credit any coders contribut
             }
             
         }
+        
         public int timer = 0;
-        bool easteregg;
+        bool defineallowedtech = false;
+        int currentspeed;
         public void Update()
         {
             timer += 1;
@@ -71,13 +73,14 @@ namespace LawAbidingTroller.SeaglideModConcept//Will credit any coders contribut
             {
                 Logger.LogInfo(timer.ToString());
             }
-            if (timer == 300 && hasalreadyran == false)
+            if (timer == 3000 && hasalreadyran == false)
             {
                 timer = 0;
                 Logger.LogInfo("Intitial Update ran! Timer Reset.");
                 hasalreadyran = true;
+
             }
-            else if (timer == 100)
+            else if (timer == 500)
             {
                 timer = 0;
                 Logger.LogInfo("Timer reset.");
@@ -85,6 +88,8 @@ namespace LawAbidingTroller.SeaglideModConcept//Will credit any coders contribut
 
             if (Inventory.main != null)
             {
+
+                
                 PlayerTool heldtool = Inventory.main.GetHeldTool();
                 //seaglide tool is usually SeaGlide(Clone) (Seaglide)
                 if (heldtool != null)
@@ -93,6 +98,11 @@ namespace LawAbidingTroller.SeaglideModConcept//Will credit any coders contribut
                     {
                         var tempstorage = heldtool.gameObject.GetComponent<StorageContainer>();
                         bool keyDown = Input.GetKeyDown(KeyCode.V);
+                        if (timer <= 100 && defineallowedtech == false && tempstorage != null)
+                        {
+                            TechType[] allowedtech = { TechType.SeaTreaderPoop, SeaglideSpeedModulePrefab.Info.TechType, SeaglideSpeedModuleMk2.Info.TechType, SeaglideSpeedModuleMk3.Info.TechType };
+                            tempstorage.container.SetAllowedTechTypes(allowedtech);
+                        }
                         if (keyDown)
                         {
                             Logger.LogInfo("Open Storage Container Key Pressed!");
@@ -109,42 +119,34 @@ namespace LawAbidingTroller.SeaglideModConcept//Will credit any coders contribut
                             }
                             
                         }
-                        if (!allowedtechalreadyset && tempstorage.container != null)
-                        {
-                            tempstorage.container.SetAllowedTechTypes(allowedtech);
-                            allowedtechalreadyset = true;
-                        }
-                        if (tempstorage != null && tempstorage.open)
-                        {
-                            //ManageSpeed(tempstorage.container, mk1SpeedUpgradeInSeaglide, SeaglideSpeedModulePrefab.mk1speedmultiplier, SeaglideSpeedModulePrefab.Info.TechType);
                             if (tempstorage.container.Contains(SeaglideSpeedModulePrefab.Info.TechType))
                             {
-                                IncreaseSeaglideSpeed(SeaglideSpeedModulePrefab.mk1speedmultiplier);
+                            currentspeed = 2;
                             }
                             else if (tempstorage.container.Contains(SeaglideSpeedModuleMk2.Info.TechType))
                             {
-                                IncreaseSeaglideSpeed(SeaglideSpeedModuleMk2.mk2speedmultiplier);
+                            currentspeed = 3;
                             }
                             else if (tempstorage.container.Contains(SeaglideSpeedModuleMk3.Info.TechType))
                             {
-                                IncreaseSeaglideSpeed(SeaglideSpeedModuleMk3.mk3speedmultiplier);
+                            currentspeed = 4;
                             }
                             else if (tempstorage.container.Contains(TechType.SeaTreaderPoop))
                             {
-                                IncreaseSeaglideSpeed(1 / 2f);
+                            currentspeed = 1;
                             }
                             else if (!tempstorage.container.Contains(SeaglideSpeedModulePrefab.Info.TechType) && !tempstorage.container.Contains(SeaglideSpeedModuleMk2.Info.TechType) && !tempstorage.container.Contains(SeaglideSpeedModuleMk3.Info.TechType) && !tempstorage.container.Contains(TechType.SeaTreaderPoop)) 
                             {
-                                ResetSeaglideSpeed();
+                            currentspeed = 0;
                             }
                             else
                             {
                                 if (tempstorage.container.IsEmpty())
                                 {
-                                    ResetSeaglideSpeed();
+                                currentspeed = 0;
                                 }
                             }
-                        }
+                        UpdateSeaglideSpeed(currentspeed);
                     }
                 }
                 else
@@ -163,49 +165,86 @@ namespace LawAbidingTroller.SeaglideModConcept//Will credit any coders contribut
                 }
             }
         }
-
+        float increasedspeed;
+        bool enablereset;
+        float default1;
+        float default2;
+        float default3;
+        float default4;
+        float default5;
         public void IncreaseSeaglideSpeed(float speed)
         {
             var playerController = Player.main.GetComponent<PlayerController>();
+            
+            default1 = playerController.seaglideForwardMaxSpeed;
+            default2 = playerController.seaglideBackwardMaxSpeed;
+            default3 = playerController.seaglideStrafeMaxSpeed;
+            default4 = playerController.seaglideVerticalMaxSpeed;
+            default5 = playerController.seaglideWaterAcceleration;
             playerController.seaglideForwardMaxSpeed = 25f * speed;
             playerController.seaglideBackwardMaxSpeed = 6.35f * speed;
             playerController.seaglideStrafeMaxSpeed = 6.35f * speed;
             playerController.seaglideVerticalMaxSpeed = 6.34f * speed;
             playerController.seaglideWaterAcceleration = 36.56f * speed;
-            Logger.LogInfo($"Seaglider speed increased by a factor of {speed}");
+            increasedspeed = speed;
+            enablereset = true;
+            if (timer == 10)
+            {
+                Logger.LogInfo($"Seaglider speed increased by a factor of {increasedspeed}");
+            }
         }
         public void ResetSeaglideSpeed()
         {
+            if (!enablereset)
+            {
+                if (timer == 100)
+                {
+                    Logger.LogWarning("Seaglide Speed was never increased! It likely didnt even start yet.");
+                }
+                return;
+            }
             var playerController = Player.main.GetComponent<PlayerController>();
-            playerController.seaglideForwardMaxSpeed = 25f;
-            playerController.seaglideBackwardMaxSpeed =6.35f;
-            playerController.seaglideStrafeMaxSpeed = 6.35f;
-            playerController.seaglideVerticalMaxSpeed = 6.34f;
-            playerController.seaglideWaterAcceleration = 36.56f;
-            playerController.seaglideSwimDrag = 2.5f;
-            Logger.LogInfo("Seaglide speed Reset");
+            playerController.seaglideForwardMaxSpeed = default1 / increasedspeed;
+            playerController.seaglideBackwardMaxSpeed = default2 / increasedspeed;
+            playerController.seaglideStrafeMaxSpeed = default3 / increasedspeed;
+            playerController.seaglideVerticalMaxSpeed = default4 / increasedspeed;
+            playerController.seaglideWaterAcceleration = default5 / increasedspeed;
+            if (timer == 100)
+            {
+                Logger.LogInfo("Seaglide speed Reset");
+            }
         }
-        //public void ManageSpeed(ItemsContainer container, bool module, float speed, TechType techtypw)
-        //{
-            //var speedornospeed = container.Contains(techtypw);            
-            //module = speedornospeed;
-            //if (module && !multiplied)
-            //{
-                //if (Player.main.motorMode == Player.MotorMode.Seaglide && !multiplied)
-                //{
-                    //IncreaseSeaglideSpeed(speed);
-                    //multiplied = true;
-                //}
-            //}
-            //else
-            //{
-                //if (multiplied)
-                //{
-                    //ResetSeaglideSpeed();
-                    //multiplied = false;
-                //}
-            //}
-        //}
+        public void UpdateSeaglideSpeed(int currentspeed)
+        {
+            switch (currentspeed)
+            {
+                case 0:
+                    ResetSeaglideSpeed();
+                    Player.main.UpdateMotorMode();
+                    break;
+                case 1:
+                    IncreaseSeaglideSpeed(1 / 2f);
+                    Player.main.UpdateMotorMode();
+                    break;
+                case 2:
+                    IncreaseSeaglideSpeed(SeaglideSpeedModulePrefab.mk1speedmultiplier);
+                    Player.main.UpdateMotorMode();
+                    break;
+                case 3:
+                    IncreaseSeaglideSpeed(SeaglideSpeedModuleMk2.mk2speedmultiplier);
+                    Player.main.UpdateMotorMode();
+                    break;
+                case 4:
+                    IncreaseSeaglideSpeed(SeaglideSpeedModuleMk3.mk3speedmultiplier);
+                    Player.main.UpdateMotorMode();
+                    break;
+                default:
+                    Logger.LogWarning("Unknown Speed Selection. Defaulting to normal");
+                    ResetSeaglideSpeed();
+                    Player.main.UpdateMotorMode();
+                    break;
+            }
+        }
         private void InitializePrefabs()
         {
             SeaglideSpeedModulePrefab.Register();
