@@ -32,4 +32,12 @@ Discord User: Law Abiding Troller. I am in the Subnautica Moding discord server 
 - Added Seaglide Speed Upgrade Mk 1
 - Added Seaglide Speed Upgrade Mk 2
 - Added Seaglide Speed Upgrade Mk 3
+## v0.1.1
+- Changed a variable to remove a counter from the log
+## v0.1.2
+- Removed a few lines of code to allow anything inside the container
+- Added a few lines of code to allow anything inside the container
+## v0.1.3
+- Actually fixed the bug with adding upgrades to the container
+- Atempted to make quickly switching between Seaglides less clunky
 ### More to come!
