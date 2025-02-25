@@ -4,13 +4,16 @@ My Litteral Seaglide Upgrades Subnautica mod. Requires Nautilus. Find the upgrad
 ## How to install:
 
 1. Ensure you have BepInEx and Nautilus installed, if you do not, the mod will not work.
-2. If you have Subnautica Mod Manager: Create a folder in BepInEx's plugin folder in your game files to put the DLL in
-3. Download the DLL. Need it to actually have the mod work
-4. Put the DLL in the plugins folder. If you have Subnautica Mod Manager, put the DLL in the folder you created in step 2.
+2. Download the ZIP file
+3. Unzip (Extract) the ZIP file to BepInEx's plugins folder
 
 ## Known Bugs: 
 
-None! I dare you to brake this version without de-compiling it! 
+None! I dare you to break this version without de-compiling it! 
+
+## Compatibility Issues:
+
+I am currently aware that this mod breaks Ramune's SeaglideUpgrades. I'm working on a fix over the next few weeks for either v0.1.5 or v0.2.0.
 
 ## Update News:
 
