@@ -5,7 +5,7 @@ My Litteral Seaglide Upgrades Subnautica mod. Requires Nautilus. Find the upgrad
 
 1. Ensure you have BepInEx and Nautilus installed, if you do not, the mod will not work.
 2. Find releases on the left of this repository just under the about section
-3. Download the ZIP file (should be labeled LiteralSeaglideUpgrades <insert version here>.zip)
+3. Download the ZIP file (should be labeled LiteralSeaglideUpgradesv0.1.4.zip)
 4. Unzip (Extract) the ZIP file to BepInEx's plugins folder
 
 ## Known Bugs: 
