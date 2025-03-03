@@ -23,7 +23,7 @@ v0.2.0 on the way! It may have a promised release feature!
 ## Some other notes: 
 I will update source code every time a (somewhat) major version is released (Example: v0.2.0, v0.3.0, etc. Or a promised feature or different feature gets added)
 
-Discord User: Law Abiding Troller. I am in the Subnautica Moding discord server as LawAbidingTrollerSucksAtMods. DM or Ping me there
+Discord User: Law Abiding Troller. I am in the Subnautica Moding discord server as LawAbidingTrollerIsOkAtMods. DM or Ping me there.
 # Changelog
 ## v0.1.0 (basically what this mod added to the game)
 
