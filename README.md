@@ -75,4 +75,17 @@ Discord User: Law Abiding Troller. I am in the Subnautica Moding discord server 
 - Changed how it checks for upgrades
 - Rearanged some code
 - Added some code
+## v0.2.0
+- Added Seaglide Effiecency Upgrade Mk 1
+- Added Seaglide Effiecency Upgrade Mk 2
+- Added Seaglide Effiecency Upgrade Mk 3
+- Changed the tool tip for All speed upgrades to actually say their upgrade. (from "Mk 5" to "Mk 1", "Mk 2", and "Mk 3)
+- Fixed the Upgrade Modules not unlocking in survival. Now unlock with `Seaglide`
+- Removed the Seaglide from the `Deployables` tab in the `Fabricator`
+- Removed All speed upgrades from the `Deployables` tab in the `Fabricator`
+- Added a new tab: `Seaglide` to the `Fabricator` at: `Personal`, `Tools`
+- Added the ability to craft the Seaglide in the tab: `Seaglide` in the `Fabricator`. Steps to get to tab, `Seaglide`: `Personal`, `Tools`
+- Added the ability to craft All of the Speed Upgrades in the tab: `Seaglide` in the `Fabricator`. Steps to get to tab, `Seaglide`: `Personal`, `Tools`
+- Added the ability to craft All of the Efficiency Upgrades in the tab: `Seaglide` in the `Fabricator`. Steps to get to tab, `Seaglide`: `Personal`, `Tools`
+- Updated Source Code
 ### More to come!
