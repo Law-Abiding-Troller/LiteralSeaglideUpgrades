@@ -6,6 +6,7 @@ using UnityEngine;
 using Nautilus.Utility;
 using System.Collections;
 using LawAbidingTroller.SeaglideModConcept.SeaglideModules.SpeedPrefab;
+using LawAbidingTroller.LiteralSeaglideUpgrades.Seaglide_Modules.Efficiency_Modules;
 using JetBrains.Annotations;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
@@ -16,10 +17,11 @@ using BepInEx.Configuration;
 using Mono.Cecil.Cil;
 using Nautilus.Handlers;
 using rail;
+using LawAbidingTroller.LiteralSeaglideUpgrades;
 
 namespace LawAbidingTroller.SeaglideModConcept//Will credit any coders contributing to the mod
 {
-    [BepInPlugin("com.lawabidingtroller.literalseaglideupgrades", "Literal Seaglide Upgrades", "0.1.4")]
+    [BepInPlugin("com.lawabidingtroller.literalseaglideupgrades", "Literal Seaglide Upgrades", "0.2.0")]
     [BepInDependency("com.snmodding.nautilus")]
     public class Plugin : BaseUnityPlugin
     {
@@ -55,6 +57,9 @@ namespace LawAbidingTroller.SeaglideModConcept//Will credit any coders contribut
             // register harmony patches, if there are any
             Harmony.CreateAndPatchAll(Assembly, "Literal Seaglide Upgrades");
             Logger.LogInfo($"Plugin Literal Seaglide Upgrades is loaded!");
+            Nautilus.Handlers.CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "SeaglideTab", "Seaglide", SpriteManager.Get(TechType.Seaglide), "Personal", "Tools");
+            Nautilus.Handlers.CraftTreeHandler.AddCraftingNode(CraftTree.Type.Fabricator, TechType.Seaglide, "Personal", "Tools", "SeaglideTab");
+            Nautilus.Handlers.CraftTreeHandler.RemoveNode(CraftTree.Type.Fabricator, "Machines", "Seaglide");
             
             if (debugmode == true)
             {
@@ -62,10 +67,17 @@ namespace LawAbidingTroller.SeaglideModConcept//Will credit any coders contribut
             }
             
         }
+        TechType[] allowedtech;
+        private void Start()
+        {
+            
+        }
         
         public int timer = 0;
         bool defineallowedtech = false;
         int currentspeed;
+        int currentefficiency;
+        Seaglide instance;
         public void Update()
         {
             timer += 1;
@@ -76,6 +88,7 @@ namespace LawAbidingTroller.SeaglideModConcept//Will credit any coders contribut
             if (timer == 3000 && hasalreadyran == false)
             {
                 timer = 0;
+                
                 Logger.LogInfo("Intitial Update ran! Timer Reset.");
                 hasalreadyran = true;
 
@@ -96,57 +109,79 @@ namespace LawAbidingTroller.SeaglideModConcept//Will credit any coders contribut
                 {
                     if (heldtool is Seaglide)
                     {
-                        var tempstorage = heldtool.gameObject.GetComponent<StorageContainer>();
-                        bool keyDown = Input.GetKeyDown(KeyCode.V);
-                        if (timer <= 100 && defineallowedtech == false && tempstorage != null)
-                        {
-                            TechType[] allowedtech = { TechType.SeaTreaderPoop, SeaglideSpeedModulePrefab.Info.TechType, SeaglideSpeedModuleMk2.Info.TechType, SeaglideSpeedModuleMk3.Info.TechType };
-                            tempstorage.container.SetAllowedTechTypes(allowedtech);
+                        instance = heldtool as Seaglide;
+                        var tempstorage = heldtool.gameObject.GetComponents<StorageContainer>();
+                        if (timer == 100)
+                        { 
+                            Logger.LogInfo($"The storage containers for {heldtool} are {tempstorage[0].storageRoot}, and {tempstorage[1].storageRoot}");
                         }
+                        bool keyDown = Input.GetKeyDown(KeyCode.V);
+                        if (timer <= 100
+                            && !defineallowedtech
+                            && tempstorage != null
+                            )
+                        {
+                            allowedtech = new TechType[] { TechType.SeaTreaderPoop, SeaglideSpeedModulePrefab.Info.TechType, SeaglideSpeedModuleMk2.Info.TechType, SeaglideSpeedModuleMk3.Info.TechType, SeaglideEfficiencyModuleMk1.Info.TechType };
+                            tempstorage[0].container.SetAllowedTechTypes(allowedtech);
+                        }
+                        
                         if (keyDown)
                         {
-                            Logger.LogInfo("Open Storage Container Key Pressed!");
-                            Logger.LogInfo($"The held tool is, in fact, {heldtool}");
-                            
-                            if (tempstorage != null)
+                            Logger.LogInfo($"Open Storage Container Key Pressed for {heldtool}");
+                            if (tempstorage[0] != null)
                             {
 
-                                if (tempstorage.open != true)
+                                if (tempstorage[0].open != true)
                                 {
-                                    tempstorage.Open();
+                                    tempstorage[0].container._label = "SEAGLIDE";
+                                    tempstorage[0].Open();
                                 }
                                 
                             }
                             
                         }
-                            if (tempstorage.container.Contains(SeaglideSpeedModulePrefab.Info.TechType))
+                        if (tempstorage[0].container.Contains(SeaglideEfficiencyModuleMk1.Info.TechType))
+                        {
+                            currentefficiency = 1;
+                        }
+                        else if (tempstorage[0].container.Contains(SeaglideEfficiencyModuleMk2.Info.TechType))
+                        {
+                            currentefficiency = 2;
+                        }
+                        else if (tempstorage[0].container.Contains(SeaglideEfficiencyModuleMk3.Info.TechType))
+                        {
+                            currentefficiency = 3;
+                        }
+                        if (tempstorage[0].container.Contains(SeaglideSpeedModulePrefab.Info.TechType))
+                        {
+                        currentspeed = 2;
+                        }
+                        else if (tempstorage[0].container.Contains(SeaglideSpeedModuleMk2.Info.TechType))
+                        {
+                        currentspeed = 3;
+                        }
+                        else if (tempstorage[0].container.Contains(SeaglideSpeedModuleMk3.Info.TechType))
+                        {
+                        currentspeed = 4;
+                        }
+                        else if (tempstorage[0].container.Contains(TechType.SeaTreaderPoop))
+                        {
+                        currentspeed = 1;
+                        }
+                        else if (!tempstorage[0].container.Contains(SeaglideSpeedModulePrefab.Info.TechType) && !tempstorage[0].container.Contains(SeaglideSpeedModuleMk2.Info.TechType) && !tempstorage[0].container.Contains(SeaglideSpeedModuleMk3.Info.TechType) && !tempstorage[0].container.Contains(TechType.SeaTreaderPoop)) 
+                        {
+                        currentspeed = 0;
+                        }
+                        else
+                        {
+                            if (tempstorage[0].container.IsEmpty())
                             {
-                            currentspeed = 2;
-                            }
-                            else if (tempstorage.container.Contains(SeaglideSpeedModuleMk2.Info.TechType))
-                            {
-                            currentspeed = 3;
-                            }
-                            else if (tempstorage.container.Contains(SeaglideSpeedModuleMk3.Info.TechType))
-                            {
-                            currentspeed = 4;
-                            }
-                            else if (tempstorage.container.Contains(TechType.SeaTreaderPoop))
-                            {
-                            currentspeed = 1;
-                            }
-                            else if (!tempstorage.container.Contains(SeaglideSpeedModulePrefab.Info.TechType) && !tempstorage.container.Contains(SeaglideSpeedModuleMk2.Info.TechType) && !tempstorage.container.Contains(SeaglideSpeedModuleMk3.Info.TechType) && !tempstorage.container.Contains(TechType.SeaTreaderPoop)) 
-                            {
-                            currentspeed = 0;
-                            }
-                            else
-                            {
-                                if (tempstorage.container.IsEmpty())
-                                {
                                 currentspeed = 0;
-                                }
                             }
-                        UpdateSeaglideSpeed(currentspeed);
+                        }
+                        instance = gameObject.GetComponent<Seaglide>();
+                        UpdateSeaglideSpeed(currentspeed, instance);
+                        UpdateEnergyEfficiency(currentefficiency, instance);
                     }
                 }
                 else
@@ -181,16 +216,16 @@ namespace LawAbidingTroller.SeaglideModConcept//Will credit any coders contribut
             default3 = playerController.seaglideStrafeMaxSpeed;
             default4 = playerController.seaglideVerticalMaxSpeed;
             default5 = playerController.seaglideWaterAcceleration;
-            playerController.seaglideForwardMaxSpeed = 25f * speed;
-            playerController.seaglideBackwardMaxSpeed = 6.35f * speed;
-            playerController.seaglideStrafeMaxSpeed = 6.35f * speed;
-            playerController.seaglideVerticalMaxSpeed = 6.34f * speed;
-            playerController.seaglideWaterAcceleration = 36.56f * speed;
+            playerController.seaglideForwardMaxSpeed = default1 * speed;
+            playerController.seaglideBackwardMaxSpeed = default2 * speed;
+            playerController.seaglideStrafeMaxSpeed = default3 * speed;
+            playerController.seaglideVerticalMaxSpeed = default4 * speed;
+            playerController.seaglideWaterAcceleration = default5 * speed;
             increasedspeed = speed;
             enablereset = true;
             if (timer == 10)
             {
-                Logger.LogInfo($"Seaglider speed increased by a factor of {increasedspeed}");
+                Logger.LogInfo($"Seaglid speed increased by a factor of {increasedspeed}");
             }
         }
         public void ResetSeaglideSpeed()
@@ -214,7 +249,7 @@ namespace LawAbidingTroller.SeaglideModConcept//Will credit any coders contribut
                 Logger.LogInfo("Seaglide speed Reset");
             }
         }
-        public void UpdateSeaglideSpeed(int currentspeed)
+        public void UpdateSeaglideSpeed(int currentspeed, Seaglide instance)
         {
             switch (currentspeed)
             {
@@ -225,6 +260,10 @@ namespace LawAbidingTroller.SeaglideModConcept//Will credit any coders contribut
                 case 1:
                     IncreaseSeaglideSpeed(1 / 2f);
                     Player.main.UpdateMotorMode();
+                    if (instance.activeState && instance.timeSinceUse >= 1f)
+                    {
+                        instance.energyMixin.AddEnergy(0f - 0.1f);
+                    }
                     break;
                 case 2:
                     IncreaseSeaglideSpeed(SeaglideSpeedModulePrefab.mk1speedmultiplier);
@@ -245,11 +284,43 @@ namespace LawAbidingTroller.SeaglideModConcept//Will credit any coders contribut
                     break;
             }
         }
+        public void UpdateEnergyEfficiency(int currentefficiency, Seaglide instance)
+        {
+            
+            switch (currentefficiency)
+            {
+                case 0:
+                    break;
+                case 1:
+                    if (instance.activeState && instance.timeSinceUse >= 1f)
+                    {
+                        instance.energyMixin.AddEnergy(SeaglideEfficiencyModuleMk1.mk1efficiencymultiplier);
+                    }
+                    break;
+                case 2:
+                    if (instance.activeState && instance.timeSinceUse >= 1f)
+                    {
+                        instance.energyMixin.AddEnergy(SeaglideEfficiencyModuleMk2.mk2efficiencymultiplier);
+                    }
+                    break;
+                case 3:
+                    if (instance.activeState && instance.timeSinceUse >= 1f)
+                    {
+                        instance.energyMixin.AddEnergy(SeaglideEfficiencyModuleMk3.mk3efficiencymultiplier);
+                    }
+                    break;
+                default :
+                    break;
+            }
+        }
         private void InitializePrefabs()
         {
             SeaglideSpeedModulePrefab.Register();
             SeaglideSpeedModuleMk2.Register();
             SeaglideSpeedModuleMk3.Register();
+            SeaglideEfficiencyModuleMk1.Register();
+            SeaglideEfficiencyModuleMk2.Register();
+            SeaglideEfficiencyModuleMk3.Register();
             Logger.LogInfo("All (or most) Prefabs successfully initalized!");
         }
 
