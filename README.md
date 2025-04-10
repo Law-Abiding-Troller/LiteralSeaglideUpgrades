@@ -40,18 +40,14 @@ My Litteral Seaglide Upgrades Subnautica mod. Requires Nautilus. Find the upgrad
 
 None! I dare you to break this version without de-compiling it! 
 
-## Compatibility Issues:
-
-I am currently aware that this mod breaks Ramune's SeaglideUpgrades. I'm working on a fix over the next few weeks for either v0.1.5 or v0.2.0.
-
 ## Update News:
 
-v0.2.0 on the way! It may have a promised release feature!
+v0.2.5 on the way! It may have a promised Addon!
 
 ## Some other notes: 
 I will update source code every time a (somewhat) major version is released (Example: v0.2.0, v0.3.0, etc. Or a promised feature or different feature gets added)
 
-Discord User: Law Abiding Troller. I am in the Subnautica Moding discord server as LawAbidingTrollerIsOkAtMods. DM or Ping me there.
+Discord User: Law Abiding Modder. I am in the Subnautica Moding discord server as Law Abiding Modder. DM or Ping me there.
 # Changelog
 ## v0.1.0 (basically what this mod added to the game)
 
