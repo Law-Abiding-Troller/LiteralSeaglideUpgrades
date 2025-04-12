@@ -1,5 +1,5 @@
 # LiteralSeaglideUpgrades
-My Litteral Seaglide Upgrades Subnautica mod. Requires Nautilus. Find the upgrades in the Fabricator, where you craft the Seaglide. Press V when holding a Seaglide to access the Upgrades! 
+My Litteral Seaglide Upgrades Subnautica mod. Requires Nautilus. Find the upgrades in the Fabricator, where you craft the Seaglide.
 
 ## How to install:
 
@@ -36,18 +36,31 @@ My Litteral Seaglide Upgrades Subnautica mod. Requires Nautilus. Find the upgrad
 6. Drag the Extracted(Unziped) folder that you just Extracted(Unziped) into the folder you just opened\
 7. Done. Can Launch Subnautica now.
 
+## Notes:
+### READ BEFORE PLAYING
+ - There are now mod options since v0.2.5
+ - How to find these:
+ - 1. Run Subnautica
+   2. Click `Options`, below Play
+   3. Find `Mods`
+   4. Find `Literal Seaglide Upgrades` drop down
+   5. Read over the settings, and make sure you want them the way they are
+### What Each Setting is:
+ - Open Upgrades Container Key: It sets a keybind which you want to open the upgrades container while holding the seaglide!
+ - Extra Speed Upgrades? (None-Mk13): Allows you to choose which extra speed upgrade you want to have as your maximum. You can have the base Mk 3, all the way to Mk 13. Lowering the setting (say for example from mk 13 to mk 4) after you already have crafted the upgrades (say, mk 13) will not remove the upgrades. Just the ability to craft those upgrades. The upgrades you have will still work in the Seaglide.
+ - Enable Debug Mode? (Requires Restart): Tick to have a check mark which will enable debug mode. It will require a restart to fully enable debug mode. When sending me issues and bugs of this mod, enable debug mode before restarting the game, then recreate it. Its un-checked version will keep your log file uncluttered for other modders to read.  
 ## Known Bugs: 
 
-None! I dare you to break this version without de-compiling it! 
+None! Please inform me of any you find!
 
 ## Update News:
 
-v0.2.5 on the way! It may have a promised Addon!
+None for now. Look at my other repositories for updates though.
 
 ## Some other notes: 
 I will update source code every time a (somewhat) major version is released (Example: v0.2.0, v0.3.0, etc. Or a promised feature or different feature gets added)
 
-Discord User: Law Abiding Modder. I am in the Subnautica Moding discord server as Law Abiding Modder. DM or Ping me there.
+Discord User: Law Abiding Modder. I am in the Subnautica Moding discord server. DM or Ping me there.
 # Changelog
 ## v0.1.0 (basically what this mod added to the game)
 
@@ -84,4 +97,15 @@ Discord User: Law Abiding Modder. I am in the Subnautica Moding discord server a
 - Added the ability to craft All of the Speed Upgrades in the tab: `Seaglide` in the `Fabricator`. Steps to get to tab, `Seaglide`: `Personal`, `Tools`
 - Added the ability to craft All of the Efficiency Upgrades in the tab: `Seaglide` in the `Fabricator`. Steps to get to tab, `Seaglide`: `Personal`, `Tools`
 - Updated Source Code
+## v0.2.5
+ - Added the ability to change the upgrades container key
+ - Added mod options
+ - Added the ability to enable Debug Mode without recompiling the mod
+ - Added a speed addon to the base mod
+   - The addon adds 10 additional speed upgrades. Going up to the max speed multiplier of 100x
+   - To unlock these upgrades, it is in the mod options menu mentioned in the Notes of this page
+   - Does require the Seaglide to unlock
+ - Updated source code
+ - Squashed many bugs
+ - Actually released on Nexus
 ### More to come!
