@@ -1,5 +1,5 @@
 # LiteralSeaglideUpgrades
-My Litteral Seaglide Upgrades Subnautica mod. Requires Nautilus. Find the upgrades in the Fabricator, where you craft the Seaglide.
+My Litteral Seaglide Upgrades Subnautica mod. Requires Nautilus. Find the upgrades in the Fabricator, under personal, tools, then there will be a tab named `Seaglide`
 
 ## How to install:
 
