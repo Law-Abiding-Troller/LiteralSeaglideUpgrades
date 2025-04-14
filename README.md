@@ -6,7 +6,7 @@ My Litteral Seaglide Upgrades Subnautica mod. Requires Nautilus. Find the upgrad
 1. Ensure you have BepInEx and Nautilus installed, if you do not, the mod will not work.
 2. Find the right of this repository. There should be sections labeled `About`, `Releases`, `Packages`, and `Languages`. Find `Releases`, just under the about section
 3. Click on the latest release.
-4. Download the ZIP file (should currently be labeled LiteralSeaglideUpgradesv0.1.4.zip)
+4. Download the ZIP file (should currently be labeled LiteralSeaglideUpgradesv0.2.5.zip)
 5. If you have Vortex, follow the Vortex Installation just after number 7.
 6. If you have Subnautica Mod Manager, skip the Vortex Installation and go to Subnautica Mod Manager Installation (Not QModManager)
 7. If you have neither, skip both the Vortex Installation and the Subnautica Mod Manager Installation and go straight to Manual Installation.
