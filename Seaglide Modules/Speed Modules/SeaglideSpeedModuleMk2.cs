@@ -1,0 +1,50 @@
+﻿using System.Collections.Generic;
+using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
+using Nautilus.Assets.PrefabTemplates;
+using UnityEngine;
+
+namespace LawAbidingTroller.SeaglideModConcept.SeaglideModules.SpeedPrefab
+{
+    public class SeaglideSpeedModuleMk2
+    {
+        public static float Mk2Speedmultiplier = 5.0f;
+        public static CustomPrefab Mk2Speedprefab;
+        public static PrefabInfo Info;
+        public static TechType TechType = TechType.VehiclePowerUpgradeModule;
+        public static bool Mk2SpeedModuleInSeaglide;
+        public static void Register()
+        {
+
+            Info = PrefabInfo.WithTechType("SeaglideSpeedUpgradeMk2", "Seaglide Speed Upgrade Module Mk 2", "Mk 2 Speed Upgrade Module for the Seaglide. 5x normal speed.")
+                .WithIcon(SpriteManager.Get(TechType.Seaglide));
+            Mk2Speedprefab = new CustomPrefab(Info);
+            var clone = new CloneTemplate(Info, TechType);
+            //so wat ur saying is: modify clone
+            clone.ModifyPrefab += obj =>
+            {
+                GameObject model = obj.gameObject;
+                model.transform.localScale = Vector3.one / 0002;
+            };
+            Mk2Speedprefab.SetGameObject(clone);
+            Mk2Speedprefab.SetRecipe(new Nautilus.Crafting.RecipeData()
+            {
+                craftAmount = 1,
+                Ingredients = new List<CraftData.Ingredient>()
+                {
+                    new CraftData.Ingredient(TechType.Lubricant, 2),
+                    new CraftData.Ingredient(TechType.AdvancedWiringKit),
+                    new CraftData.Ingredient(SeaglideSpeedModulePrefab.Info.TechType)
+                }
+            })
+            .WithFabricatorType(CraftTree.Type.Fabricator)
+            .WithStepsToFabricatorTab("Personal","Tools","SeaglideTab")
+            .WithCraftingTime(5f);
+            Mk2Speedprefab.SetUnlock(TechType.Seaglide);
+            Mk2Speedprefab.Register();
+
+            Plugin.Logger.LogInfo("Prefab SeaglideSpeedUpgradeMk2 successfully initalized!");
+        }
+
+    }
+}
