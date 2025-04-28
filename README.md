@@ -41,8 +41,8 @@ My Litteral Seaglide Upgrades Subnautica mod. Requires Nautilus. Find the upgrad
  - There are now mod options since v0.2.5
  - How to find these:
  - 1. Run Subnautica
-   2. Click `Options`, below Play
-   3. Find `Mods`
+   2. Find and Click `Options`
+   3. Find and Click `Mods`
    4. Find `Literal Seaglide Upgrades` drop down
    5. Read over the settings, and make sure you want them the way they are
 ### What Each Setting is:
