@@ -54,8 +54,8 @@ My Literal Seaglide Upgrades Subnautica mod. Requires Nautilus.
 None! Please inform me of any you find!
 
 ## Update News:
+Fixing many bugs and rewriting the full mod. It should be ready by August. However, that depends on how much I can get done, it may release sooner.
 
-None for now. Look at my other repositories for updates though.
 Discord User: Law Abiding Coder. I am in the Subnautica Moding discord server. DM or Ping me there.
 # Changelog
 ## v0.1.0 (basically what this mod added to the game)
