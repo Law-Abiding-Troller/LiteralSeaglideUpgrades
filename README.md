@@ -1,5 +1,5 @@
 # LiteralSeaglideUpgrades
-My Litteral Seaglide Upgrades Subnautica mod. Requires Nautilus. Find the upgrades in the Fabricator, under personal, tools, then there will be a tab named `Seaglide`
+My Literal Seaglide Upgrades Subnautica mod. Requires Nautilus.
 
 ## How to install:
 
@@ -56,11 +56,7 @@ None! Please inform me of any you find!
 ## Update News:
 
 None for now. Look at my other repositories for updates though.
-
-## Some other notes: 
-I will update source code every time a (somewhat) major version is released (Example: v0.2.0, v0.3.0, etc. Or a promised feature or different feature gets added)
-
-Discord User: Law Abiding Modder. I am in the Subnautica Moding discord server. DM or Ping me there.
+Discord User: Law Abiding Coder. I am in the Subnautica Moding discord server. DM or Ping me there.
 # Changelog
 ## v0.1.0 (basically what this mod added to the game)
 
