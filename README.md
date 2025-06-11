@@ -1,6 +1,12 @@
 # LiteralSeaglideUpgrades
 My Literal Seaglide Upgrades Subnautica mod. Requires Nautilus.
 
+## Dependencies
+ - Subnautica
+ - BepInEx
+ - Nautilus
+ - UpgradesLIB
+
 ## How to install:
 
 1. Ensure you have BepInEx and Nautilus installed, if you do not, the mod will not work.
