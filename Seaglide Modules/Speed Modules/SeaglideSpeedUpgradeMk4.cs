@@ -39,6 +39,9 @@ namespace LawAbidingTroller.SeaglideModConcept.SeaglideModules.SpeedPrefab
                     .WithFabricatorType(CraftTree.Type.Fabricator)
                     .WithStepsToFabricatorTab("Personal", "Tools", "SeaglideTab", "ExtraUpgrades")
                     .WithCraftingTime(5f);
+                Plugin.Speedprefab[Plugin.Index].SetUnlock(TechType.Seaglide);
+                Plugin.Speedprefab[Plugin.Index].SetPdaGroupCategory(UpgradesLIB.Plugin.equipmentupgrademodules,
+                    Plugin.LiteralSeaglideUpgrades);
                 Plugin.Speedprefab[Plugin.Index].Register();
             
 

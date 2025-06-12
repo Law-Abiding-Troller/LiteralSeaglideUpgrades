@@ -41,6 +41,8 @@ namespace LawAbidingTroller.LiteralSeaglideUpgrades
             .WithStepsToFabricatorTab("Personal", "Tools", "SeaglideTab")
             .WithCraftingTime(5f);
             Mk2Efficiencyprefab.SetUnlock(TechType.Seaglide);
+            Mk2Efficiencyprefab.SetPdaGroupCategory(UpgradesLIB.Plugin.equipmentupgrademodules,
+                Plugin.LiteralSeaglideUpgrades);
             Mk2Efficiencyprefab.Register();
 
             Plugin.Logger.LogInfo("Prefab SeaglideEfficiencyUpgradeMk2 successfully initalized!");

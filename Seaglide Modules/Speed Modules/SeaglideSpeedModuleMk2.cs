@@ -41,6 +41,8 @@ namespace LawAbidingTroller.SeaglideModConcept.SeaglideModules.SpeedPrefab
             .WithStepsToFabricatorTab("Personal","Tools","SeaglideTab")
             .WithCraftingTime(5f);
             Mk2Speedprefab.SetUnlock(TechType.Seaglide);
+            Mk2Speedprefab.SetPdaGroupCategory(UpgradesLIB.Plugin.equipmentupgrademodules,
+                Plugin.LiteralSeaglideUpgrades);
             Mk2Speedprefab.Register();
 
             Plugin.Logger.LogInfo("Prefab SeaglideSpeedUpgradeMk2 successfully initalized!");

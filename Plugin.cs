@@ -11,34 +11,29 @@ using LawAbidingTroller.LiteralSeaglideUpgrades.Seaglide_Modules.Efficiency_Modu
 using LawAbidingTroller.LiteralSeaglideUpgrades;
 using Nautilus.Assets;
 using Nautilus.Handlers;
+using UnityEngine.Serialization;
 
 namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contributing to the mod
 {
+    /*
+     * Todo List:
+     * Remove fields currentspeed and _currentefficiency
+     * Remove methods IncreaseSeaglideSpeed, DecreaseSeaglideSpeed, IncreaseSeaglideEfficiency, DecreaseSeaglideEfficiency, UpdateSeaglideSpeed, and UpdateSeaglideEfficiency.
+     * Move method UpdateExtraUpgrades to ModOptions.cs as a OnChange event
+     * 
+     */
     [BepInPlugin("com.lawabidingtroller.literalseaglideupgrades", "Literal Seaglide Upgrades", "0.2.5")]
     [BepInDependency("com.snmodding.nautilus")]
+    [BepInDependency("com.lawabidingmodder.upgradeslib")]
     public class Plugin : BaseUnityPlugin
     {
         public new static ManualLogSource Logger { get; private set; }
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         public bool hasalreadyran;
 
-        private IEnumerator SetSeaglideUpgrades(TechType techtype)
-        {
-            // Fetch the prefab:
-            Logger.LogInfo("Fetching prefab for tech type...");
-            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(techtype);
-            // Wait for the prefab task to complete:
-            yield return task;
-            Logger.LogInfo("Prefab fetch completed.");
-            // Get the prefab:
-            GameObject prefab = task.GetResult();
-            Logger.LogInfo($"The prefab is {prefab}");
-            // Use the prefab to add a storage contianer:
-            PrefabUtils.AddStorageContainer(prefab, "SeaglideUpgradeStorage", "SeaglideUpgradeStorageChild", 2, 2);
-            InitializePrefabs();
-        }
-
         public static ModOptions ModOptions;
+        
+        public static TechCategory LiteralSeaglideUpgrades = EnumHandler.AddEntry<TechCategory>("LiteralSeaglideUpgrades").WithPdaInfo("Literal Seaglide Upgrades").RegisterToTechGroup(UpgradesLIB.Plugin.toolupgrademodules);
         
         private void Awake()
         {
@@ -48,7 +43,8 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
             // Initialize mod options ASAP
             ModOptions = OptionsPanelHandler.RegisterModOptions<ModOptions>();
             // Create the Seaglide Upgrade Storage for the Seaglides
-            StartCoroutine(SetSeaglideUpgrades(TechType.Seaglide));
+            StartCoroutine(UpgradesLIB.Plugin.CreateUpgradesContainer(TechType.Seaglide, "SeaglideUpgradeStorage", "SeaglideUpgradeStorageChild", 2, 2));
+            InitializePrefabs();
             // register harmony patches, if there are any
             Harmony.CreateAndPatchAll(Assembly, "Literal Seaglide Upgrades");
             Logger.LogInfo($"Plugin Literal Seaglide Upgrades is loaded!");
@@ -69,7 +65,7 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
 
         }
 
-        public TechType[] allowedtech;
+        public static TechType[] allowedtech;
         public int timer = 0;
         public bool defineallowedtech;
         public int currentspeed;
@@ -77,7 +73,7 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
         public Seaglide instance;
         int _numticks = 0;
         public StorageContainer[] seaglidestorage; //to patch into...i dislike that i have to do this
-        bool _collectedDefaultValues;
+        public static bool CollectedDefaultValues;
         public bool subscribed;
         
 
@@ -201,7 +197,7 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
                 return;
             }
 
-            if (!_collectedDefaultValues)
+            if (!CollectedDefaultValues)
             {
                 var playerController = Player.main.GetComponent<PlayerController>();
 
@@ -215,7 +211,7 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
                     return;
                 }
 
-                _collectedDefaultValues = true;
+                CollectedDefaultValues = true;
             }
         }
 
@@ -379,7 +375,7 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
             }
         }
 
-        private void
+        public static void
             OnItemRemoved(
                 InventoryItem item) //custom behavior for when one of the upgrades (or bleach) is removed from the storage container
         {
@@ -404,7 +400,6 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
             //reduce the capacity when the mk1 upgrade is removed, check if it has been already upgraded, let me know if it should cause issues on reload
             if (item.item.GetTechType() == allowedtech[1])
             {
-                currentspeed = 0;
                 if (ModOptions.debugmode)
                 {
                     Logger.LogDebug($"Item removed: {allowedtech[1]}");
@@ -549,7 +544,7 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
             }
         }
 
-        private void
+        public static void
             OnItemAdded(
                 InventoryItem item) //custom behavior for if any of the upgrades (or bleach) has been added to the storage container
         {
@@ -718,161 +713,7 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
                 currentspeed = 14;
             }
         }
-
-        public static void UpdateExtraUpgrades(int extras)
-        {
-            if (InitializedPrefabs)
-            {
-                switch (extras)
-                {
-                    case 0:
-                        KnownTech.Remove(Prefabinfo[0].TechType);
-                        KnownTech.Remove(Prefabinfo[1].TechType);
-                        KnownTech.Remove(Prefabinfo[2].TechType);
-                        KnownTech.Remove(Prefabinfo[3].TechType);
-                        KnownTech.Remove(Prefabinfo[4].TechType);
-                        KnownTech.Remove(Prefabinfo[5].TechType);
-                        KnownTech.Remove(Prefabinfo[6].TechType);
-                        KnownTech.Remove(Prefabinfo[7].TechType);
-                        KnownTech.Remove(Prefabinfo[8].TechType);
-                        KnownTech.Remove(Prefabinfo[9].TechType);
-                        break;
-                    case 1:
-                        KnownTech.Add(Prefabinfo[0].TechType);
-                        KnownTech.Remove(Prefabinfo[1].TechType);
-                        KnownTech.Remove(Prefabinfo[2].TechType);
-                        KnownTech.Remove(Prefabinfo[3].TechType);
-                        KnownTech.Remove(Prefabinfo[4].TechType);
-                        KnownTech.Remove(Prefabinfo[5].TechType);
-                        KnownTech.Remove(Prefabinfo[6].TechType);
-                        KnownTech.Remove(Prefabinfo[7].TechType);
-                        KnownTech.Remove(Prefabinfo[8].TechType);
-                        KnownTech.Remove(Prefabinfo[9].TechType);
-                        break;
-                    case 2:
-                        KnownTech.Add(Prefabinfo[0].TechType);
-                        KnownTech.Add(Prefabinfo[1].TechType);
-                        KnownTech.Remove(Prefabinfo[2].TechType);
-                        KnownTech.Remove(Prefabinfo[3].TechType);
-                        KnownTech.Remove(Prefabinfo[4].TechType);
-                        KnownTech.Remove(Prefabinfo[5].TechType);
-                        KnownTech.Remove(Prefabinfo[6].TechType);
-                        KnownTech.Remove(Prefabinfo[7].TechType);
-                        KnownTech.Remove(Prefabinfo[8].TechType);
-                        KnownTech.Remove(Prefabinfo[9].TechType);
-                        break;
-                    case 3:
-                        KnownTech.Add(Prefabinfo[0].TechType);
-                        KnownTech.Add(Prefabinfo[1].TechType);
-                        KnownTech.Add(Prefabinfo[2].TechType);
-                        KnownTech.Remove(Prefabinfo[3].TechType);
-                        KnownTech.Remove(Prefabinfo[4].TechType);
-                        KnownTech.Remove(Prefabinfo[5].TechType);
-                        KnownTech.Remove(Prefabinfo[6].TechType);
-                        KnownTech.Remove(Prefabinfo[7].TechType);
-                        KnownTech.Remove(Prefabinfo[8].TechType);
-                        KnownTech.Remove(Prefabinfo[9].TechType);
-                        break;
-                    case 4:
-                        KnownTech.Add(Prefabinfo[0].TechType);
-                        KnownTech.Add(Prefabinfo[1].TechType);
-                        KnownTech.Add(Prefabinfo[2].TechType);
-                        KnownTech.Add(Prefabinfo[3].TechType);
-                        KnownTech.Remove(Prefabinfo[4].TechType);
-                        KnownTech.Remove(Prefabinfo[5].TechType);
-                        KnownTech.Remove(Prefabinfo[6].TechType);
-                        KnownTech.Remove(Prefabinfo[7].TechType);
-                        KnownTech.Remove(Prefabinfo[8].TechType);
-                        KnownTech.Remove(Prefabinfo[9].TechType);
-                        break;
-                    case 5:
-                        KnownTech.Add(Prefabinfo[0].TechType);
-                        KnownTech.Add(Prefabinfo[1].TechType);
-                        KnownTech.Add(Prefabinfo[2].TechType);
-                        KnownTech.Add(Prefabinfo[3].TechType);
-                        KnownTech.Add(Prefabinfo[4].TechType);
-                        KnownTech.Remove(Prefabinfo[5].TechType);
-                        KnownTech.Remove(Prefabinfo[6].TechType);
-                        KnownTech.Remove(Prefabinfo[7].TechType);
-                        KnownTech.Remove(Prefabinfo[8].TechType);
-                        KnownTech.Remove(Prefabinfo[9].TechType);
-                        break;
-                    case 6:
-                        KnownTech.Add(Prefabinfo[0].TechType);
-                        KnownTech.Add(Prefabinfo[1].TechType);
-                        KnownTech.Add(Prefabinfo[2].TechType);
-                        KnownTech.Add(Prefabinfo[3].TechType);
-                        KnownTech.Add(Prefabinfo[4].TechType);
-                        KnownTech.Add(Prefabinfo[5].TechType);
-                        KnownTech.Remove(Prefabinfo[6].TechType);
-                        KnownTech.Remove(Prefabinfo[7].TechType);
-                        KnownTech.Remove(Prefabinfo[8].TechType);
-                        KnownTech.Remove(Prefabinfo[9].TechType);
-                        break;
-                    case 7:
-                        KnownTech.Add(Prefabinfo[0].TechType);
-                        KnownTech.Add(Prefabinfo[1].TechType);
-                        KnownTech.Add(Prefabinfo[2].TechType);
-                        KnownTech.Add(Prefabinfo[3].TechType);
-                        KnownTech.Add(Prefabinfo[4].TechType);
-                        KnownTech.Add(Prefabinfo[5].TechType);
-                        KnownTech.Add(Prefabinfo[6].TechType);
-                        KnownTech.Remove(Prefabinfo[7].TechType);
-                        KnownTech.Remove(Prefabinfo[8].TechType);
-                        KnownTech.Remove(Prefabinfo[9].TechType);
-                        break;
-                    case 8:
-                        KnownTech.Add(Prefabinfo[0].TechType);
-                        KnownTech.Add(Prefabinfo[1].TechType);
-                        KnownTech.Add(Prefabinfo[2].TechType);
-                        KnownTech.Add(Prefabinfo[3].TechType);
-                        KnownTech.Add(Prefabinfo[4].TechType);
-                        KnownTech.Add(Prefabinfo[5].TechType);
-                        KnownTech.Add(Prefabinfo[6].TechType);
-                        KnownTech.Add(Prefabinfo[7].TechType);
-                        KnownTech.Remove(Prefabinfo[8].TechType);
-                        KnownTech.Remove(Prefabinfo[9].TechType);
-                        break;
-                    case 9:
-                        KnownTech.Add(Prefabinfo[0].TechType);
-                        KnownTech.Add(Prefabinfo[1].TechType);
-                        KnownTech.Add(Prefabinfo[2].TechType);
-                        KnownTech.Add(Prefabinfo[3].TechType);
-                        KnownTech.Add(Prefabinfo[4].TechType);
-                        KnownTech.Add(Prefabinfo[5].TechType);
-                        KnownTech.Add(Prefabinfo[6].TechType);
-                        KnownTech.Add(Prefabinfo[7].TechType);
-                        KnownTech.Add(Prefabinfo[8].TechType);
-                        KnownTech.Remove(Prefabinfo[9].TechType);
-                        break;
-                    case 10:
-                        KnownTech.Add(Prefabinfo[0].TechType);
-                        KnownTech.Add(Prefabinfo[1].TechType);
-                        KnownTech.Add(Prefabinfo[2].TechType);
-                        KnownTech.Add(Prefabinfo[3].TechType);
-                        KnownTech.Add(Prefabinfo[4].TechType);
-                        KnownTech.Add(Prefabinfo[5].TechType);
-                        KnownTech.Add(Prefabinfo[6].TechType);
-                        KnownTech.Add(Prefabinfo[7].TechType);
-                        KnownTech.Add(Prefabinfo[8].TechType);
-                        KnownTech.Add(Prefabinfo[9].TechType);
-                        break;
-                    default:
-                        KnownTech.Remove(Prefabinfo[0].TechType);
-                        KnownTech.Remove(Prefabinfo[1].TechType);
-                        KnownTech.Remove(Prefabinfo[2].TechType);
-                        KnownTech.Remove(Prefabinfo[3].TechType);
-                        KnownTech.Remove(Prefabinfo[4].TechType);
-                        KnownTech.Remove(Prefabinfo[5].TechType);
-                        KnownTech.Remove(Prefabinfo[6].TechType);
-                        KnownTech.Remove(Prefabinfo[7].TechType);
-                        KnownTech.Remove(Prefabinfo[8].TechType);
-                        KnownTech.Remove(Prefabinfo[9].TechType);
-                        break;
-                }
-            }
-
-        }
+        
         public static float[] Speedmultiplier = { 8, 12, 17, 23, 30, 38, 47, 57, 68, 80 };
         public static CustomPrefab[] Speedprefab = new CustomPrefab[10];
         public static PrefabInfo[] Prefabinfo = new PrefabInfo[10];
