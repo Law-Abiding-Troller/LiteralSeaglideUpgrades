@@ -20,7 +20,7 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
      * Remove fields currentspeed and _currentefficiency
      * Remove methods IncreaseSeaglideSpeed, DecreaseSeaglideSpeed, IncreaseSeaglideEfficiency, DecreaseSeaglideEfficiency, UpdateSeaglideSpeed, and UpdateSeaglideEfficiency.
      * Move method UpdateExtraUpgrades to ModOptions.cs as a OnChange event
-     * 
+     * Remove unnecessary method in Plugin.cs (move to other classes)
      */
     [BepInPlugin("com.lawabidingtroller.literalseaglideupgrades", "Literal Seaglide Upgrades", "0.2.5")]
     [BepInDependency("com.snmodding.nautilus")]
@@ -717,6 +717,7 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
         public static float[] Speedmultiplier = { 8, 12, 17, 23, 30, 38, 47, 57, 68, 80 };
         public static CustomPrefab[] Speedprefab = new CustomPrefab[10];
         public static PrefabInfo[] Prefabinfo = new PrefabInfo[10];
+        public static UpgradeData[] Upgradedata = new UpgradeData[10];
         public static int Index;
         public static float Changespeedmultiplier = 4;
         public static bool InitializedPrefabs = false;
@@ -732,6 +733,8 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
                 {
                     Speedmultiplier[Index] += Changespeedmultiplier;
                     SeaglideSpeedModuleMk4.Register();
+                    Upgradedata[Index].speedmultiplier = Speedmultiplier[Index];
+                    ModOptions.upgradeValues.Add(Prefabinfo[Index].TechType, Upgradedata[Index]);
                     Logger.LogInfo(Index.ToString());
                     if (Index == 8)
                     {

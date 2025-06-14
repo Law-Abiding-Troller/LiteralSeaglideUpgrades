@@ -8,7 +8,7 @@ namespace LawAbidingTroller.SeaglideModConcept.SeaglideModules.SpeedPrefab
 {
     public class SeaglideSpeedModuleMk2
     {
-        public static float Mk2Speedmultiplier = 5.0f;
+        public static UpgradeData Mk2Data = new UpgradeData(5.0f);
         public static CustomPrefab Mk2Speedprefab;
         public static PrefabInfo Info;
         public static TechType TechType = TechType.VehiclePowerUpgradeModule;
@@ -18,6 +18,7 @@ namespace LawAbidingTroller.SeaglideModConcept.SeaglideModules.SpeedPrefab
 
             Info = PrefabInfo.WithTechType("SeaglideSpeedUpgradeMk2", "Seaglide Speed Upgrade Module Mk 2", "Mk 2 Speed Upgrade Module for the Seaglide. 5x normal speed.")
                 .WithIcon(SpriteManager.Get(TechType.Seaglide));
+            ModOptions.upgradeValues.Add(Info.TechType, Mk2Data);
             Mk2Speedprefab = new CustomPrefab(Info);
             var clone = new CloneTemplate(Info, TechType);
             //so wat ur saying is: modify clone

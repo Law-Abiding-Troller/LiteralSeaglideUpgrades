@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Nautilus.Json;
 using Nautilus.Options;
 using Nautilus.Options.Attributes;
@@ -9,6 +10,9 @@ namespace LawAbidingTroller.SeaglideModConcept;
 [Menu("Literal Seaglide Upgrades")]
 public class ModOptions : ConfigFile
 {
+    public static Dictionary<TechType, UpgradeData> upgradeValues = new Dictionary<TechType, UpgradeData>();
+    
+    
     [Keybind("Open Upgrades Container Key"), OnChange(nameof(KeyBindChangeEvent))]
     public KeyCode OpenUpgradesContainerKey = KeyCode.V;
     public static KeyCode OpenUpgradesContainerkey = KeyCode.V;

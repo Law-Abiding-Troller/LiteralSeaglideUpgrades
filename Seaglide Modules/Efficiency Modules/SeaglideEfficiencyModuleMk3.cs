@@ -8,7 +8,7 @@ namespace LawAbidingTroller.LiteralSeaglideUpgrades.Seaglide_Modules.Efficiency_
 {
     public class SeaglideEfficiencyModuleMk3
     {
-        public static float Mk3Efficiencymultiplier = 0.085f;
+        public static UpgradeData Mk3Efficiencydata = new UpgradeData(0,0.085f);
         public static CustomPrefab Mk3Efficiencyprefab;
         public static PrefabInfo Info;
         public static TechType TechType = TechType.VehiclePowerUpgradeModule;
@@ -16,6 +16,7 @@ namespace LawAbidingTroller.LiteralSeaglideUpgrades.Seaglide_Modules.Efficiency_
         {
             Info = PrefabInfo.WithTechType("SeaglideEfficiencyUpgradeMk3", "Seaglide Efficiency Upgrade Module Mk 3", "Mk 3 Efficiency Upgrade Module for the Seaglide. 1.85x normal efficiency. (Lasts 85% Longer)")
                 .WithIcon(SpriteManager.Get(TechType.PowerUpgradeModule));
+            ModOptions.upgradeValues.Add(Info.TechType, Mk3Efficiencydata);
             Mk3Efficiencyprefab = new CustomPrefab(Info);
             var clone = new CloneTemplate(Info, TechType);
             //so wat ur saying is: modify clone
