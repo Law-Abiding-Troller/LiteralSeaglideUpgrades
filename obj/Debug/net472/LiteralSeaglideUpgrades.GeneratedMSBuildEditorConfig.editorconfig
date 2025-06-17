@@ -1,6 +1,6 @@
 is_global = true
 build_property.RootNamespace = LiteralSeaglideUpgrades
-build_property.ProjectDir = C:\Users\Colt\Documents\LiteralSeaglideUpgrades\
+build_property.ProjectDir = /Users/coltwiedermann/Documents/GitHub/LiteralSeaglideUpgrades/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.CsWinRTUseWindowsUIXamlProjections = false

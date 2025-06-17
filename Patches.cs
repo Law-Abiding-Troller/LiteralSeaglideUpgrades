@@ -1,82 +1,80 @@
-using System.Linq;
+using System.Collections.Generic;
+using System.Reflection.Emit;
 using UnityEngine;
 using LawAbidingTroller.LiteralSeaglideUpgrades.Seaglide_Modules.Efficiency_Modules;
 using HarmonyLib;
 using LawAbidingTroller.LiteralSeaglideUpgrades;
 using LawAbidingTroller.SeaglideModConcept.SeaglideModules.SpeedPrefab;
-using RootMotion.FinalIK;
 
 namespace LawAbidingTroller.SeaglideModConcept;
 
 [HarmonyPatch(typeof(Seaglide))]
 public class SeaglidePatches
 {
-    public static float Efficiency;
+    public float HeldEfficiency;
     [HarmonyPatch(nameof(Seaglide.Update))]
     [HarmonyPostfix]
     public static void Update_Postfix(Seaglide __instance)
     {
         if (__instance == null) return;
         var tempstorage = __instance.GetComponents<StorageContainer>();
-        if( tempstorage==null )return;
+        if( tempstorage == null) return;
         if (Input.GetKeyDown(ModOptions.OpenUpgradesContainerkey))
         {
             if (tempstorage[0].open) {ErrorMessage.AddMessage("Close 'SEAGLIDE' to open it!"); return;}
             tempstorage[0].Open();
         }
     }
+}
 
-    [HarmonyPatch(nameof(Seaglide.UpdateEnergy))]
-    [HarmonyPostfix]
-    public static void UpdateEnergy_Postfix(Seaglide __instance)
+[HarmonyPatch(typeof(Seaglide))]
+[HarmonyPatch(nameof(Seaglide.UpdateEnergy))]
+public static class Seaglide_UpdateEnergy_Patch
+{
+    public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
     {
-        if (__instance == null) return;//Since I'm not willing to make a transpiler to change one number,
-        if (__instance.activeState)// copy-paste SN code and use it to add the efficiency percentage.
-        {
-            __instance.timeSinceUse += Time.deltaTime;
-            if (__instance.timeSinceUse >= 1f)
-            {
-                __instance.energyMixin.AddEnergy(Efficiency);
-                __instance.timeSinceUse -= 1f;
-            }
-        }
-        if (__instance.powerGlideActive)
-        {
-            float num = (Efficiency*10) * Time.deltaTime;//Multiply by 10 to match percentage.
-            if (__instance.energyMixin.charge >= num)
-            {
-                __instance.energyMixin.ConsumeEnergy(num);
-            }
-        }
-        
+        var codeMatcher = new CodeMatcher(instructions)
+            .MatchForward(false, new CodeMatch(OpCodes.Ldc_R4, 0.1))
+            .SetAndAdvance(OpCodes.Ldarg_0, null)
+            .Insert(new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(UpgradeData), "GetEfficiency")));
+        return codeMatcher.InstructionEnumeration();
     }
 }
 
 [HarmonyPatch(typeof(PlayerController))]
 public class PlayerControllerPatches
 {
-    public static float ToChangeSpeedMultiplier;
-    public static bool DoChangeSpeed;
-    [HarmonyPatch(nameof(PlayerController.Start))]
-    [HarmonyPostfix]
-    public static void Start_Postfix(PlayerController __instance)
-    {
-        if (__instance == null) return;
-        
-    }
+    
     [HarmonyPatch(nameof(PlayerController.SetMotorMode))]
     [HarmonyPrefix]
-    public static void SetMotorMode_Prefix(PlayerController __instance, Player.MotorMode newMotorMode)
+    public static void SetMotorMode_Prefix(PlayerController __instance, Player.MotorMode newMotorMode, out Seaglide __state)
     {
+        __state = null;
         if (newMotorMode != Player.MotorMode.Seaglide) return;
-        if (ToChangeSpeedMultiplier <= 0) return;
-        if (!DoChangeSpeed) return;
-        __instance.seaglideForwardMaxSpeed *= ToChangeSpeedMultiplier;
-        __instance.seaglideBackwardMaxSpeed *= ToChangeSpeedMultiplier;
-        __instance.seaglideStrafeMaxSpeed *= ToChangeSpeedMultiplier;
-        __instance.seaglideVerticalMaxSpeed *= ToChangeSpeedMultiplier;
-        __instance.seaglideWaterAcceleration *= ToChangeSpeedMultiplier/8f;
-        __instance.seaglideSwimDrag /= ToChangeSpeedMultiplier/8f;
+        var held = Inventory.main.GetHeldTool();
+        if (held != null && held is Seaglide) __state = held as Seaglide;
+        var speed = UpgradeData.CalculateSpeed(__state);
+        __instance.seaglideForwardMaxSpeed *= speed;
+        __instance.seaglideBackwardMaxSpeed *= speed;
+        __instance.seaglideStrafeMaxSpeed *= speed;
+        __instance.seaglideVerticalMaxSpeed *= speed;
+        __instance.seaglideWaterAcceleration *= speed/16f;
+        __instance.seaglideSwimDrag /= speed/16f;
+    }
+    
+    [HarmonyPatch(nameof(PlayerController.SetMotorMode))]
+    [HarmonyPostfix]
+    public static void SetMotorMode_Postfix(PlayerController __instance, Player.MotorMode newMotorMode, Seaglide __state)
+    {
+        if (__state == null) return;
+        if  (newMotorMode != Player.MotorMode.Seaglide) return;
+        var speed = UpgradeData.CalculateSpeed(__state);
+        __instance.seaglideForwardMaxSpeed /= speed;
+        __instance.seaglideBackwardMaxSpeed /= speed;
+        __instance.seaglideStrafeMaxSpeed /= speed;
+        __instance.seaglideVerticalMaxSpeed /= speed;
+        __instance.seaglideWaterAcceleration /= speed/16f;
+        __instance.seaglideSwimDrag *= speed/16f;
     }
 }
 
@@ -85,14 +83,12 @@ public class PlayerToolPatches
 {
     [HarmonyPatch(nameof(PlayerTool.Awake))]
     [HarmonyPrefix]
-    public static void Awake_Prefix(PlayerTool __instance)
+    public static void Awake_Postfix(PlayerTool __instance)
     {
         if (__instance == null) return;
         if (__instance is not Seaglide) return;
         var tempstorage = __instance.GetComponents<StorageContainer>();
         if (tempstorage == null) return;
-        tempstorage[0].container.onAddItem += OnItem.Added;
-        tempstorage[0].container.onRemoveItem += OnItem.Removed;
         tempstorage[0].container._label = "SEAGLIDE";
         if (Plugin.CollectedDefaultValues) return;
         var allowedtech = new TechType[17]
@@ -106,39 +102,64 @@ public class PlayerToolPatches
             Plugin.Prefabinfo[7].TechType, Plugin.Prefabinfo[8].TechType, Plugin.Prefabinfo[9].TechType
         };
         tempstorage[0].container.SetAllowedTechTypes(allowedtech);
+        UpgradeData eastereggvalue = new(0.5f,-0.1f, __instance as Seaglide);
+        ModOptions.upgradeValues.Add(TechType.SeaTreaderPoop, eastereggvalue);
     }
 }
-public class OnItem
-     {
-         public static void Added(InventoryItem item)
-         {
-             if (ModOptions.upgradeValues.TryGetValue(item.item.GetTechType(), out UpgradeData upgradeData))
-             {
-                 if (upgradeData.efficiencymultiplier != 0)
-                 {
-                     SeaglidePatches.Efficiency = upgradeData.efficiencymultiplier;
-                 }
-                 else
-                 {
-                     PlayerControllerPatches.ToChangeSpeedMultiplier = upgradeData.speedmultiplier;
-                 }
-             }
-         }
- 
-         public static void Removed(InventoryItem item)
-         {
-             
-         }
-     }
  
      public class UpgradeData
      {
          public float speedmultiplier = 0f;
          public float efficiencymultiplier = 0f;
+         public Seaglide SeaglideInstance;
 
-         public UpgradeData(float speed = 0, float efficiency = 0)
+         public UpgradeData(float speed = 0, float efficiency = 0, Seaglide identifier = null)
          {
              speedmultiplier = speed;
              efficiencymultiplier = efficiency;
+             SeaglideInstance = identifier;
+         }
+         public static float GetEfficiency(Seaglide instance)
+         {
+             var tempstorage = instance.GetComponent<StorageContainer>();
+             if (tempstorage == null)
+             {
+                 Plugin.Logger.LogError("No storage container found on Seaglide. WTF Happened.");
+                 return 0;
+             }
+             UpgradeData upgradeData;
+             float highestEfficiency = 0;
+             foreach (var item in tempstorage.container.GetItemTypes())
+             {
+                 if (!ModOptions.upgradeValues.TryGetValue(item, out upgradeData))
+                 {
+                     Plugin.Logger.LogError($"Cannot get TechType ({item}) from upgrade values dictionary.");
+                     continue;
+                 }
+                 highestEfficiency = Mathf.Max(highestEfficiency, upgradeData.efficiencymultiplier);
+             }
+             return 0.1f - highestEfficiency;
+         }
+
+         public static float CalculateSpeed(Seaglide instance)
+         {
+             var tempstorage = instance.GetComponent<StorageContainer>();
+             if (tempstorage == null)
+             {
+                 Plugin.Logger.LogError("No storage container found on Seaglide. WTF Happened.");
+                 return 0;
+             }
+             UpgradeData upgradeData;
+             float highestSpeed = 0;
+             foreach (var item in tempstorage.container.GetItemTypes())
+             {
+                 if (!ModOptions.upgradeValues.TryGetValue(item, out upgradeData))
+                 {
+                     Plugin.Logger.LogError($"Cannot get TechType ({item}) from upgrade values.");
+                     continue;
+                 }
+                 highestSpeed = Mathf.Max(highestSpeed, upgradeData.speedmultiplier);
+             }
+             return highestSpeed;
          }
      }

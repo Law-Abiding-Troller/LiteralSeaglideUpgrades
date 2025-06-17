@@ -32,13 +32,13 @@
 
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\Subnautica_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>/Users/coltwiedermann/Library/Application Support/Steam/steamapps/common/Subnautica/Subnautica.app/Contents/Resources/Data/Managed/Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\..\..\Subnautica_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>/Users/coltwiedermann/Library/Application Support/Steam/steamapps/common/Subnautica/Subnautica.app/Contents/Resources/Data/Managed/Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="UpgradesLIB">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\ToolsUpgradesLIB\UpgradesLIB.dll</HintPath>
+      <HintPath>/Users/coltwiedermann/Library/Application Support/Steam/steamapps/common/Subnautica/BepInEx/plugins/ToolsUpgradesLIB/UpgradesLIB.dll</HintPath>
     </Reference>
   </ItemGroup>
 
