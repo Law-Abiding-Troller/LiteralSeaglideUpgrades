@@ -52,13 +52,6 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
             Nautilus.Handlers.CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "ExtraUpgrades",
                     "Speed Upgrades (Extras)",
                     SpriteManager.Get(TechType.Seaglide), "Personal", "Tools", "SeaglideTab");
-            
-
-            if (ModOptions.debugmode)
-            {
-                Logger.LogInfo("Debug mode is enabled");
-            }
-
         }
         
         public static float[] Speedmultiplier = { 8, 12, 17, 23, 30, 38, 47, 57, 68, 80 };

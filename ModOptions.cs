@@ -175,16 +175,4 @@ public class ModOptions : ConfigFile
                 break;
         }
     }
-    
-    [Toggle("Enable Debug Mode? (Requires Restart)"), OnChange(nameof(ToggleChangeEvent))]
-    public bool debugmode = false;
-
-    public static bool Debugmode = false;
-
-    void ToggleChangeEvent(ToggleChangedEventArgs args)
-    {
-        Debugmode = args.Value;
-    }
-
-
 }
