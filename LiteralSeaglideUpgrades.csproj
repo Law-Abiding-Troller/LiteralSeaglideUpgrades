@@ -41,8 +41,4 @@
       <HintPath>/Users/coltwiedermann/Library/Application Support/Steam/steamapps/common/Subnautica/BepInEx/plugins/ToolsUpgradesLIB/UpgradesLIB.dll</HintPath>
     </Reference>
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /Y &quot;$(TargetPath)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\LiteralSeaglideUpgrades&quot;&#xA;copy /Y &quot;C:\Users\Colt\Documents\SeaglideModConcept\bin\Debug\net472\LiteralSeaglideUpgrades.pdb&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\LiteralSeaglideUpgrades&quot;" />
-  </Target>
 </Project>
