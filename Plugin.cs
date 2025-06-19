@@ -44,14 +44,11 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
             // register harmony patches, if there are any
             Harmony.CreateAndPatchAll(Assembly, "Literal Seaglide Upgrades");
             Logger.LogInfo($"Plugin Literal Seaglide Upgrades is loaded!");
-            Nautilus.Handlers.CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "SeaglideTab", "Seaglide",
-                SpriteManager.Get(TechType.Seaglide), "Personal", "Tools");
-            Nautilus.Handlers.CraftTreeHandler.AddCraftingNode(CraftTree.Type.Fabricator, TechType.Seaglide, "Personal",
-                "Tools", "SeaglideTab");
-            Nautilus.Handlers.CraftTreeHandler.RemoveNode(CraftTree.Type.Fabricator, "Machines", "Seaglide");
-            Nautilus.Handlers.CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "ExtraUpgrades",
+            Nautilus.Handlers.CraftTreeHandler.AddTabNode(UpgradesLIB.Items.Equipment.Handheldprefab.HandheldfabTreeType, "SeaglideTab", "Seaglide",
+                SpriteManager.Get(TechType.Seaglide), "Tools");
+            Nautilus.Handlers.CraftTreeHandler.AddTabNode(UpgradesLIB.Items.Equipment.Handheldprefab.HandheldfabTreeType, "ExtraUpgrades",
                     "Speed Upgrades (Extras)",
-                    SpriteManager.Get(TechType.Seaglide), "Personal", "Tools", "SeaglideTab");
+                    SpriteManager.Get(TechType.Seaglide), "Tools", "SeaglideTab");
         }
         
         public static float[] Speedmultiplier = { 8, 12, 17, 23, 30, 38, 47, 57, 68, 80 };

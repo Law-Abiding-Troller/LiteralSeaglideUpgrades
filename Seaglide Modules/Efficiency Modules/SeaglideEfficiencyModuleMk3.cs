@@ -36,8 +36,8 @@ namespace LawAbidingTroller.LiteralSeaglideUpgrades.Seaglide_Modules.Efficiency_
                     new CraftData.Ingredient(SeaglideEfficiencyModuleMk2.Info.TechType)
                 }
             })
-            .WithFabricatorType(CraftTree.Type.Fabricator)
-            .WithStepsToFabricatorTab("Personal", "Tools", "SeaglideTab")
+            .WithFabricatorType(UpgradesLIB.Items.Equipment.Handheldprefab.HandheldfabTreeType)
+            .WithStepsToFabricatorTab("Tools", "SeaglideTab")
             .WithCraftingTime(5f);
             Mk3Efficiencyprefab.SetUnlock(TechType.Seaglide);
             Mk3Efficiencyprefab.SetPdaGroupCategory(UpgradesLIB.Plugin.equipmentupgrademodules,
