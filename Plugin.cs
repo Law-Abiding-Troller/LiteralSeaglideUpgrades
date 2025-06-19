@@ -33,8 +33,10 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
         
         private void Awake()
         {
+            
             // set project-scoped logger instance
             Logger = base.Logger;
+            Logger.LogInfo("Awake method is running. Dependencies exist. Completing plugin load...");
             
             // Initialize mod options ASAP
             ModOptions = OptionsPanelHandler.RegisterModOptions<ModOptions>();
@@ -43,12 +45,12 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
             InitializePrefabs();
             // register harmony patches, if there are any
             Harmony.CreateAndPatchAll(Assembly, "Literal Seaglide Upgrades");
-            Logger.LogInfo($"Plugin Literal Seaglide Upgrades is loaded!");
             Nautilus.Handlers.CraftTreeHandler.AddTabNode(UpgradesLIB.Items.Equipment.Handheldprefab.HandheldfabTreeType, "SeaglideTab", "Seaglide",
                 SpriteManager.Get(TechType.Seaglide), "Tools");
             Nautilus.Handlers.CraftTreeHandler.AddTabNode(UpgradesLIB.Items.Equipment.Handheldprefab.HandheldfabTreeType, "ExtraUpgrades",
                     "Speed Upgrades (Extras)",
                     SpriteManager.Get(TechType.Seaglide), "Tools", "SeaglideTab");
+            Logger.LogInfo("Plugin fully loaded successfully!");
         }
         
         public static float[] Speedmultiplier = { 8, 12, 17, 23, 30, 38, 47, 57, 68, 80 };
