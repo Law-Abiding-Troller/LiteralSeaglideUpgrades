@@ -36,7 +36,7 @@ public static class Seaglide_UpdateEnergy_Patch
         var codeMatcher = new CodeMatcher(instructions)
             .MatchForward(true, new CodeMatch(OpCodes.Ldc_R4, 0.1))
             .SetAndAdvance(OpCodes.Ldarg_0, null)
-            .Insert(new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(UpgradeData), "GetEfficiency")));
+            .Insert(new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(UpgradeData), "GetEfficiency", new []{typeof(Seaglide)})));
         return codeMatcher.InstructionEnumeration();
     }
 }
