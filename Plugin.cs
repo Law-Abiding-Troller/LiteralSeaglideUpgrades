@@ -42,7 +42,7 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
             ModOptions = OptionsPanelHandler.RegisterModOptions<ModOptions>();
             // Create the Seaglide Upgrade Storage for the Seaglides
             StartCoroutine(UpgradesLIB.Plugin.CreateUpgradesContainer(TechType.Seaglide, "SeaglideUpgradeStorage", "SeaglideUpgradeStorageChild", 2, 2));
-            InitializePrefabs();
+            
             // register harmony patches, if there are any
             Harmony.CreateAndPatchAll(Assembly, "Literal Seaglide Upgrades");
             Nautilus.Handlers.CraftTreeHandler.AddTabNode(UpgradesLIB.Items.Equipment.Handheldprefab.HandheldfabTreeType, "SeaglideTab", "Seaglide",
@@ -50,6 +50,8 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
             Nautilus.Handlers.CraftTreeHandler.AddTabNode(UpgradesLIB.Items.Equipment.Handheldprefab.HandheldfabTreeType, "ExtraUpgrades",
                     "Speed Upgrades (Extras)",
                     SpriteManager.Get(TechType.Seaglide), "Tools", "SeaglideTab");
+            
+            InitializePrefabs();
             Logger.LogInfo("Plugin fully loaded successfully!");
         }
         
