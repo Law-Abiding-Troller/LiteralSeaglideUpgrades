@@ -74,7 +74,7 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
                 {
                     Speedmultiplier[Index] += Changespeedmultiplier;
                     SeaglideSpeedModuleMk4.Register();
-                    Upgradedata[Index].speedmultiplier = Speedmultiplier[Index];
+                    Upgradedata[Index] = new UpgradeData(Speedmultiplier[Index]);
                     ModOptions.upgradeValues.Add(Prefabinfo[Index].TechType, Upgradedata[Index]);
                     Logger.LogInfo(Index.ToString());
                     if (Index == 8)
