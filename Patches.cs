@@ -34,7 +34,7 @@ public static class Seaglide_UpdateEnergy_Patch
     public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
     {
         var codeMatcher = new CodeMatcher(instructions)
-            .MatchForward(true, new CodeMatch(OpCodes.Ldc_R4, 0.1))
+            .MatchForward(true, new CodeMatch(OpCodes.Ldc_R4, 0.1f))
             .SetAndAdvance(OpCodes.Ldarg_0, null)
             .Insert(new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(UpgradeData), "GetEfficiency", new []{typeof(Seaglide)})));
         return codeMatcher.InstructionEnumeration();
