@@ -28,16 +28,15 @@ namespace LawAbidingTroller.SeaglideModConcept //Will credit any coders contribu
         public bool hasalreadyran;
 
         public static ModOptions ModOptions;
-        
-        public static TechCategory LiteralSeaglideUpgrades = EnumHandler.AddEntry<TechCategory>("LiteralSeaglideUpgrades").WithPdaInfo("Literal Seaglide Upgrades").RegisterToTechGroup(UpgradesLIB.Plugin.toolupgrademodules);
-        
+
+        public static TechCategory LiteralSeaglideUpgrades;
         private void Awake()
         {
             
             // set project-scoped logger instance
             Logger = base.Logger;
             Logger.LogInfo("Awake method is running. Dependencies exist. Completing plugin load...");
-            
+            LiteralSeaglideUpgrades = EnumHandler.AddEntry<TechCategory>("LiteralSeaglideUpgrades").WithPdaInfo("Literal Seaglide Upgrades").RegisterToTechGroup(UpgradesLIB.Plugin.toolupgrademodules);
             // Initialize mod options ASAP
             ModOptions = OptionsPanelHandler.RegisterModOptions<ModOptions>();
             // Create the Seaglide Upgrade Storage for the Seaglides

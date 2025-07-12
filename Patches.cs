@@ -25,6 +25,34 @@ public class SeaglidePatches
             tempstorage[0].Open();
         }
     }
+
+    [HarmonyPatch(nameof(Seaglide.HasEnergy))]
+    [HarmonyPrefix]
+    public static bool HasEnergy_Prefix(Seaglide __instance, ref bool __result)
+    {
+        //__result = !__instance.energyMixin.IsDepleted();
+        //return false;
+        return true;
+    }
+
+    [HarmonyPatch(nameof(Seaglide.Start)), HarmonyPostfix]
+    public static void Start_Postfix(Seaglide __instance)
+    {
+        var tempstorage = __instance.GetComponent<StorageContainer>();
+        if (tempstorage == null) return;
+        tempstorage.container._label = "SEAGLIDE";
+        var allowedtech = new[]
+        {
+            TechType.SeaTreaderPoop, SeaglideSpeedModulePrefab.Info.TechType,
+            SeaglideSpeedModuleMk2.Info.TechType, SeaglideSpeedModuleMk3.Info.TechType,
+            SeaglideEfficiencyModuleMk1.Info.TechType, SeaglideEfficiencyModuleMk2.Info.TechType,
+            SeaglideEfficiencyModuleMk3.Info.TechType, Plugin.Prefabinfo[0].TechType, 
+            Plugin.Prefabinfo[1].TechType, Plugin.Prefabinfo[2].TechType, Plugin.Prefabinfo[3].TechType, 
+            Plugin.Prefabinfo[4].TechType, Plugin.Prefabinfo[5].TechType, Plugin.Prefabinfo[6].TechType, 
+            Plugin.Prefabinfo[7].TechType, Plugin.Prefabinfo[8].TechType, Plugin.Prefabinfo[9].TechType
+        };
+        tempstorage.container.SetAllowedTechTypes(allowedtech);
+    }
 }
 
 [HarmonyPatch(typeof(Seaglide))]
@@ -50,15 +78,18 @@ public class PlayerControllerPatches
     public static void SetMotorMode_Prefix(PlayerController __instance, 
         Player.MotorMode newMotorMode, out SpeedData __state)
     {
-        __state = new SpeedData(__instance.seaglideForwardMaxSpeed, 
-            __instance.seaglideBackwardMaxSpeed, 
-            __instance.seaglideStrafeMaxSpeed, 
-            __instance.seaglideVerticalMaxSpeed,
-            __instance.seaglideWaterAcceleration, 
-            __instance.seaglideSwimDrag);
+        __state = null;
+        if (newMotorMode != Player.MotorMode.Seaglide) return;
         var held = Inventory.main.GetHeldTool();
         if (held == null || held is not Seaglide) return;
+        __state = new SpeedData(__instance.seaglideForwardMaxSpeed, 
+                            __instance.seaglideBackwardMaxSpeed, 
+                            __instance.seaglideStrafeMaxSpeed, 
+                            __instance.seaglideVerticalMaxSpeed,
+                            __instance.seaglideWaterAcceleration, 
+                            __instance.seaglideSwimDrag);
         var speed = UpgradeData.CalculateSpeed(held as Seaglide);
+        if (speed <= 0) return;
         __instance.seaglideForwardMaxSpeed *= speed;
         __instance.seaglideBackwardMaxSpeed *= speed;
         __instance.seaglideStrafeMaxSpeed *= speed;
@@ -72,40 +103,13 @@ public class PlayerControllerPatches
     public static void SetMotorMode_Postfix(PlayerController __instance, 
         Player.MotorMode newMotorMode, SpeedData __state)
     {
+        if (__state == null) return;
         __instance.seaglideForwardMaxSpeed = __state.DefaultseaglideForwardMaxSpeed;
         __instance.seaglideBackwardMaxSpeed = __state.DefaultseaglideBackwardMaxSpeed;
         __instance.seaglideStrafeMaxSpeed = __state.DefaultseaglideStrafeMaxSpeed;
         __instance.seaglideVerticalMaxSpeed = __state.DefaultseaglideVerticalMaxSpeed;
         __instance.seaglideWaterAcceleration = __state.DefaultseaglideWaterAcceleration;
         __instance.seaglideSwimDrag = __state.DefaultseaglideSwimDrag;
-    }
-}
-
-[HarmonyPatch(typeof(PlayerTool))]
-public class PlayerToolPatches
-{
-    [HarmonyPatch(nameof(PlayerTool.Awake))]
-    [HarmonyPrefix]
-    public static void Awake_Postfix(PlayerTool __instance)
-    {
-        if (__instance == null) return;
-        if (__instance is not Seaglide) return;
-        var tempstorage = __instance.GetComponents<StorageContainer>();
-        if (tempstorage == null) return;
-        tempstorage[0].container._label = "SEAGLIDE";
-        var allowedtech = new[]
-        {
-            TechType.SeaTreaderPoop, SeaglideSpeedModulePrefab.Info.TechType,
-            SeaglideSpeedModuleMk2.Info.TechType, SeaglideSpeedModuleMk3.Info.TechType,
-            SeaglideEfficiencyModuleMk1.Info.TechType, SeaglideEfficiencyModuleMk2.Info.TechType,
-            SeaglideEfficiencyModuleMk3.Info.TechType, Plugin.Prefabinfo[0].TechType, 
-            Plugin.Prefabinfo[1].TechType, Plugin.Prefabinfo[2].TechType, Plugin.Prefabinfo[3].TechType, 
-            Plugin.Prefabinfo[4].TechType, Plugin.Prefabinfo[5].TechType, Plugin.Prefabinfo[6].TechType, 
-            Plugin.Prefabinfo[7].TechType, Plugin.Prefabinfo[8].TechType, Plugin.Prefabinfo[9].TechType
-        };
-        tempstorage[0].container.SetAllowedTechTypes(allowedtech);
-        UpgradeData eastereggvalue = new(0.5f,-0.1f, __instance as Seaglide);
-        ModOptions.upgradeValues.Add(TechType.SeaTreaderPoop, eastereggvalue);
     }
 }
  
@@ -162,6 +166,7 @@ public class PlayerToolPatches
                  }
                  highestSpeed = Mathf.Max(highestSpeed, upgradeData.speedmultiplier);
              }
+             Plugin.Logger.LogDebug($"highestSpeed: {highestSpeed}");
              return highestSpeed;
          }
      }
