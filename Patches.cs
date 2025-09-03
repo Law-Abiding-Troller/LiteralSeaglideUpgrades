@@ -17,12 +17,12 @@ public class SeaglidePatches
     public static void Update_Postfix(Seaglide __instance)
     {
         if (__instance == null) return;
-        var tempstorage = __instance.GetComponents<StorageContainer>();
+        var tempstorage = __instance.GetComponent<StorageContainer>();
         if( tempstorage == null) return;
         if (Input.GetKeyDown(ModOptions.OpenUpgradesContainerkey))
         {
-            if (tempstorage[0].open) {ErrorMessage.AddMessage("Close 'SEAGLIDE' to open it!"); return;}
-            tempstorage[0].Open();
+            if (tempstorage.open) {ErrorMessage.AddMessage("Close 'SEAGLIDE' to open it!"); return;}
+            tempstorage.Open();
         }
     }
 
@@ -90,12 +90,20 @@ public class PlayerControllerPatches
                             __instance.seaglideSwimDrag);
         var speed = UpgradeData.CalculateSpeed(held as Seaglide);
         if (speed <= 0) return;
-        __instance.seaglideForwardMaxSpeed *= speed;
-        __instance.seaglideBackwardMaxSpeed *= speed;
-        __instance.seaglideStrafeMaxSpeed *= speed;
-        __instance.seaglideVerticalMaxSpeed *= speed;
-        __instance.seaglideWaterAcceleration *= speed/16f;
-        __instance.seaglideSwimDrag /= speed/16f;
+        __instance.seaglideForwardMaxSpeed = __state.DefaultseaglideForwardMaxSpeed * speed;
+        __instance.seaglideBackwardMaxSpeed = __state.DefaultseaglideBackwardMaxSpeed*speed;
+        __instance.seaglideStrafeMaxSpeed = __state.DefaultseaglideStrafeMaxSpeed*speed;
+        __instance.seaglideVerticalMaxSpeed = __state.DefaultseaglideVerticalMaxSpeed*speed;
+        __instance.seaglideWaterAcceleration = __state.DefaultseaglideWaterAcceleration * (speed/16f);
+        __instance.seaglideSwimDrag = __state.DefaultseaglideSwimDrag / ( speed/16f);
+        if (UpgradesLIB.Config.debugMode)
+        {
+            Plugin.Logger.LogWarning($"New Max Speed Data:\nForward: {__instance.seaglideForwardMaxSpeed}" +
+                                    $"\nBackward: {__instance.seaglideBackwardMaxSpeed}" +
+                                    $"\nStrafe: {__instance.seaglideStrafeMaxSpeed}\n" +
+                                    $"Vertical: {__instance.seaglideVerticalMaxSpeed}\n" +
+                                    $"Water Acceleration: {__instance.seaglideWaterAcceleration}\nSwim Drag: {__instance.seaglideSwimDrag}");
+        }
     }
     
     [HarmonyPatch(nameof(PlayerController.SetMotorMode))]
@@ -110,6 +118,14 @@ public class PlayerControllerPatches
         __instance.seaglideVerticalMaxSpeed = __state.DefaultseaglideVerticalMaxSpeed;
         __instance.seaglideWaterAcceleration = __state.DefaultseaglideWaterAcceleration;
         __instance.seaglideSwimDrag = __state.DefaultseaglideSwimDrag;
+        if (UpgradesLIB.Config.debugMode)
+        {
+            Plugin.Logger.LogDebug($"New Max Speed Data:\nForward: {__instance.seaglideForwardMaxSpeed}" +
+                                    $"\nBackward: {__instance.seaglideBackwardMaxSpeed}" +
+                                    $"\nStrafe: {__instance.seaglideStrafeMaxSpeed}\n" +
+                                    $"Vertical: {__instance.seaglideVerticalMaxSpeed}\n" +
+                                    $"Water Acceleration: {__instance.seaglideWaterAcceleration}\nSwim Drag: {__instance.seaglideSwimDrag}");
+        }
     }
 }
  

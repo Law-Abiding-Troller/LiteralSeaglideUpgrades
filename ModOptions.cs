@@ -13,7 +13,7 @@ public class ModOptions : ConfigFile
     public static Dictionary<TechType, UpgradeData> upgradeValues = new Dictionary<TechType, UpgradeData>();
     
     
-    [Keybind("Open Upgrades Container Key"), OnChange(nameof(KeyBindChangeEvent))]
+    //[Keybind("Open Upgrades Container Key"), OnChange(nameof(KeyBindChangeEvent))]
     public KeyCode OpenUpgradesContainerKey = KeyCode.V;
     public static KeyCode OpenUpgradesContainerkey = KeyCode.V;
 

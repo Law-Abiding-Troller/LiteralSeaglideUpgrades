@@ -31,12 +31,12 @@ namespace LawAbidingTroller.SeaglideModConcept.SeaglideModules.SpeedPrefab
             Mk3Speedprefab.SetRecipe(new Nautilus.Crafting.RecipeData()
             {
                 craftAmount = 1,
-                Ingredients = new List<CraftData.Ingredient>()
+                Ingredients = new List<Ingredient>()
                 {
-                    new CraftData.Ingredient(TechType.Lubricant),
-                    new CraftData.Ingredient(TechType.AdvancedWiringKit),
-                    new CraftData.Ingredient(TechType.Battery),
-                    new CraftData.Ingredient(SeaglideSpeedModuleMk2.Info.TechType)
+                    new Ingredient(TechType.Lubricant,1),
+                    new Ingredient(TechType.AdvancedWiringKit,1),
+                    new Ingredient(TechType.Battery,1),
+                    new Ingredient(SeaglideSpeedModuleMk2.Info.TechType,1)
                 }
             })
             .WithFabricatorType(UpgradesLIB.Items.Equipment.Handheldprefab.HandheldfabTreeType)

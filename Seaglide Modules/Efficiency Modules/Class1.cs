@@ -30,10 +30,10 @@ namespace LawAbidingTroller.LiteralSeaglideUpgrades.Seaglide_Modules.Efficiency_
             Mk1Efficiencyprefab.SetRecipe(new Nautilus.Crafting.RecipeData()
             {
                 craftAmount = 1,
-                Ingredients = new List<CraftData.Ingredient>()
+                Ingredients = new List<Ingredient>()
                 {
-                    new CraftData.Ingredient(TechType.Battery),
-                    new CraftData.Ingredient(TechType.WiringKit)
+                    new Ingredient(TechType.Battery,1),
+                    new Ingredient(TechType.WiringKit,1)
                 }
             })
             .WithFabricatorType(UpgradesLIB.Items.Equipment.Handheldprefab.HandheldfabTreeType)

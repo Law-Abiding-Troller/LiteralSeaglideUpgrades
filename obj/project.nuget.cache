@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "HzADQvwBrSI=",
+  "dgSpecHash": "8p6tXgfIDlc=",
   "success": true,
   "projectFilePath": "/Users/coltwiedermann/Documents/GitHub/LiteralSeaglideUpgrades/LiteralSeaglideUpgrades.csproj",
   "expectedPackageFiles": [
@@ -16,8 +16,8 @@
     "/Users/coltwiedermann/.nuget/packages/monomod.utils/21.12.13.1/monomod.utils.21.12.13.1.nupkg.sha512",
     "/Users/coltwiedermann/.nuget/packages/newtonsoft.json/12.0.3/newtonsoft.json.12.0.3.nupkg.sha512",
     "/Users/coltwiedermann/.nuget/packages/polysharp/1.13.1/polysharp.1.13.1.nupkg.sha512",
-    "/Users/coltwiedermann/.nuget/packages/subnautica.gamelibs/71288.0.0-r.0/subnautica.gamelibs.71288.0.0-r.0.nupkg.sha512",
-    "/Users/coltwiedermann/.nuget/packages/subnautica.nautilus/1.0.0-pre.37/subnautica.nautilus.1.0.0-pre.37.nupkg.sha512",
+    "/Users/coltwiedermann/.nuget/packages/subnautica.gamelibs/82304.0.0-r.0/subnautica.gamelibs.82304.0.0-r.0.nupkg.sha512",
+    "/Users/coltwiedermann/.nuget/packages/subnautica.nautilus/1.0.0-pre.43/subnautica.nautilus.1.0.0-pre.43.nupkg.sha512",
     "/Users/coltwiedermann/.nuget/packages/unityengine.modules/2019.4.36/unityengine.modules.2019.4.36.nupkg.sha512"
   ],
   "logs": []

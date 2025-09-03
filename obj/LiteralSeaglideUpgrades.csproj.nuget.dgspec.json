@@ -68,10 +68,6 @@
               "target": "Package",
               "version": "[1.13.1, )"
             },
-            "Subnautica.GameLibs": {
-              "target": "Package",
-              "version": "[71288.0.0-r.0, )"
-            },
             "Subnautica.Nautilus": {
               "suppressParent": "All",
               "target": "Package",

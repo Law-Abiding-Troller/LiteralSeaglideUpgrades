@@ -19,7 +19,6 @@ namespace LawAbidingTroller.SeaglideModConcept.SeaglideModules.SpeedPrefab
             ModOptions.upgradeValues.Add(Info.TechType, Mk1Data);
             Mk1Speedprefab = new CustomPrefab(Info);
             var clone = new CloneTemplate(Info, TechType);
-            //so wat ur saying is: modify clone
             clone.ModifyPrefab += obj =>
             {
                 GameObject model = obj.gameObject;
@@ -29,10 +28,10 @@ namespace LawAbidingTroller.SeaglideModConcept.SeaglideModules.SpeedPrefab
             Mk1Speedprefab.SetRecipe(new Nautilus.Crafting.RecipeData()
             {
                 craftAmount = 1,
-                Ingredients = new List<CraftData.Ingredient>()
+                Ingredients = new List<Ingredient>()
                 {
-                    new CraftData.Ingredient(TechType.Lubricant),
-                    new CraftData.Ingredient(TechType.WiringKit)
+                    new Ingredient(TechType.Lubricant,1),
+                    new Ingredient(TechType.WiringKit,1)
                 }
             })
             .WithFabricatorType(UpgradesLIB.Items.Equipment.Handheldprefab.HandheldfabTreeType)

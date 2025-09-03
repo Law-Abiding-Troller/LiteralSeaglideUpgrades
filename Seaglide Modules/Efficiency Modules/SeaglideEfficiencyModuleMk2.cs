@@ -31,11 +31,11 @@ namespace LawAbidingTroller.LiteralSeaglideUpgrades
             Mk2Efficiencyprefab.SetRecipe(new Nautilus.Crafting.RecipeData()
             {
                 craftAmount = 1,
-                Ingredients = new List<CraftData.Ingredient>()
+                Ingredients = new List<Ingredient>()
                 {
-                    new CraftData.Ingredient(TechType.ComputerChip),
-                    new CraftData.Ingredient(TechType.WiringKit),
-                    new CraftData.Ingredient(SeaglideEfficiencyModuleMk1.Info.TechType)
+                    new Ingredient(TechType.ComputerChip,1),
+                    new Ingredient(TechType.WiringKit,1),
+                    new Ingredient(SeaglideEfficiencyModuleMk1.Info.TechType,1)
                 }
             })
             .WithFabricatorType(UpgradesLIB.Items.Equipment.Handheldprefab.HandheldfabTreeType)
