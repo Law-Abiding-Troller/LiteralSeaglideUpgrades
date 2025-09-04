@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LiteralSeaglideUpgrades")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("0.2.5.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.2.5+021e343e2655d935d10930e745ce452e77db4142")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.2.5+0df4e392c0ae50a1651da29390e9fb2dbaa0c873")]
 [assembly: System.Reflection.AssemblyProductAttribute("LiteralSeaglideUpgrades")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LiteralSeaglideUpgrades")]
 [assembly: System.Reflection.AssemblyVersionAttribute("0.2.5.0")]
