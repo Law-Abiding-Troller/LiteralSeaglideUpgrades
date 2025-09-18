@@ -21,7 +21,6 @@ namespace LawAbidingTroller.SeaglideModConcept.SeaglideModules.SpeedPrefab
             ModOptions.upgradeValues.Add(Info.TechType, Mk3Data);
             Mk3Speedprefab = new CustomPrefab(Info);
             var clone = new CloneTemplate(Info, TechType);
-            //so wat ur saying is: modify clone
             clone.ModifyPrefab += obj =>
             {
                 GameObject model = obj.gameObject;
